@@ -1,0 +1,100 @@
+---
+title: Face-Recognition Attendance System
+year: null
+category: AI/ML & Computer Vision
+summary: Attendance captured at the door, with the biometric data kept on site.
+stack:
+  - Python
+  - FastAPI
+  - Computer vision
+  - MySQL
+  - Raspberry Pi
+  - Docker
+client: null
+role: Architecture, recognition service, backend, deployment
+screenshots: []
+links: []
+placeholder: true
+order: 2
+---
+
+## Problem
+
+Taking attendance by register costs the first five minutes of every session and
+produces a record nobody can audit: it is filled in late, copied forward, or
+marked for a student who was not there. For an institution that has to report
+attendance accurately, the register is the weakest link in the chain.
+
+<TodoBlock title="Confirm the problem statement">
+  Replace with the real deployment: what was being tracked, how many people, how attendance was
+  recorded before, and what specifically went wrong with it.
+</TodoBlock>
+
+## Constraints
+
+- Face data is biometric. Where it is stored, who can access it and how long it
+  is kept had to be settled in writing before any hardware was installed.
+- Recognition has to work in the actual lighting at the entrance, which changes
+  through the day and is nothing like the lighting in a test.
+- The site's internet connection cannot be a dependency — attendance must still
+  be captured when it is down.
+- A wrong result must be correctable by a named person, and the correction has
+  to be visible in the record.
+- The hardware budget is a single-board computer and one camera per door, not a
+  server.
+
+## Architecture
+
+Recognition runs on a Raspberry Pi at the door. Faces are enrolled once into an
+embedding store that never leaves the site; the camera frame is processed and
+discarded, and what is kept is a mathematical representation plus the attendance
+event.
+
+<ArchitectureSlot label="Architecture diagram — camera, on-device inference, local store, sync" />
+
+Events queue locally and sync to the central service when the connection allows,
+so a network outage delays reporting without losing a day's attendance.
+
+## Key decisions & trade-offs
+
+**Inference on site, not in the cloud.** A cloud vision API would have been more
+accurate and dramatically cheaper to build. It would also mean sending images of
+students' faces to a third-party service in another jurisdiction, which is not a
+trade we were willing to make. Running on local hardware cost accuracy and
+engineering time and kept the biometric data in the building.
+
+**Store embeddings, not photographs.** After enrolment, no face images are
+retained. An embedding is still personal data and still has to be protected, but
+a breach of it is meaningfully less damaging than a breach of a photo library.
+
+**Recognition proposes, a person confirms exceptions.** Confident matches are
+recorded automatically. Anything below the threshold goes to a short review
+queue rather than being guessed at. This is slower than a fully automatic system
+and it is the only responsible design: the alternative is marking the wrong
+person absent and having no way to tell.
+
+**Threshold set from measurement at the door.** We measured false accepts and
+false rejects in the real entrance at three times of day and set the threshold
+from that data, then documented the measured rates. A threshold copied from a
+benchmark would have looked fine in testing and failed in the afternoon sun.
+
+## Results
+
+<TodoBlock title="Results — real numbers only">
+  Needs the measured figures: enrolled population, measured false accept and false reject rates
+  in situ, proportion of sessions needing manual review, time saved per session, and the
+  retention period agreed with the institution. These are the numbers that make a biometric
+  system defensible — publish nothing until they exist.
+</TodoBlock>
+
+## What we would do differently
+
+We would write the data-protection policy — retention period, access list,
+deletion process, what happens when someone leaves — before writing any
+recognition code. We got to it early, but not first, and it still shaped
+decisions after they had been made rather than before.
+
+We would also enrol a deliberately difficult set of faces on day one: glasses
+on and off, head coverings, people who look similar, the worst lighting of the
+day. Those cases found more design problems than the bulk of normal enrolments
+did, and we met them later than we should have.

@@ -1,0 +1,105 @@
+---
+code: AIM-240
+title: Introduction to AI/ML & Computer Vision
+category: AI/ML
+level: Intermediate
+summary: Train, evaluate and deploy a model that does one defined job — and know when not to use one.
+duration: 8 weeks
+schedule: null
+price: null
+format:
+  - Live online
+  - Recorded lessons
+  - Project work
+  - Mentorship
+language: English
+whoItsFor:
+  - Developers who want to apply models rather than research them
+  - Teams with a repetitive visual or classification task
+  - Anyone who needs to judge whether a machine-learning proposal is sound
+prerequisites:
+  - Comfortable with Python — functions, lists, dictionaries, file handling
+  - School-level algebra; no calculus required
+  - Patience for data work, which is most of the job
+whatYouBuild:
+  - An image classifier trained on data you collected and labelled yourself
+  - A face-recognition prototype with its error cases measured and documented
+  - An inference service behind an API, with monitoring
+requirements:
+  - A laptop with at least 8 GB of RAM
+  - A webcam, for the vision exercises
+  - A Google account, for free notebook GPUs when training needs them
+syllabus:
+  - label: Week 1
+    title: What machine learning is for
+    points:
+      - Problems a model suits, and problems a rule solves better and more safely
+      - Defining the task and what counts as a correct answer, before any code
+      - Where the data will come from, and whether you may use it
+  - label: Week 2
+    title: Data
+    points:
+      - Collecting and labelling your own dataset, and how long that really takes
+      - Train, validation and test splits, and how leakage invalidates results
+      - Class imbalance, and what it does to an accuracy figure
+  - label: Week 3
+    title: First models
+    points:
+      - Classification end to end with scikit-learn
+      - Features, and why representation matters more than algorithm choice
+      - Overfitting seen on your own curves, not described in a slide
+  - label: Week 4
+    title: Evaluation, properly
+    points:
+      - Precision, recall, confusion matrices and why accuracy misleads
+      - Choosing a threshold based on which error is more expensive
+      - Reporting the error cases alongside the headline number
+  - label: Week 5
+    title: Images and neural networks
+    points:
+      - Convolutional networks, explained by what they do to an image
+      - Transfer learning — the practical way to work with a small dataset
+      - Augmentation, and augmentation that destroys the signal
+  - label: Week 6
+    title: Faces
+    points:
+      - Detection versus recognition, and embeddings
+      - Building a recognition prototype and measuring it in poor lighting
+      - Bias, consent, retention and the law — before anything is deployed
+  - label: Week 7
+    title: Deployment
+    points:
+      - Wrapping a model in an API, and inference cost per request
+      - Running on modest hardware, including a Raspberry Pi
+      - Monitoring for drift, and logging what the model got wrong
+  - label: Week 8
+    title: Final project and review
+    points:
+      - A model applied to a task you chose, with measured results
+      - Review — framing, data quality, evaluation honesty
+      - Presenting it including where it fails, which is the part that matters
+faq:
+  - question: Is this a deep-learning theory course?
+    answer: No. There is no derivation of backpropagation. The aim is to apply models correctly, evaluate them honestly and know their limits.
+  - question: Do I need a GPU?
+    answer: No. The exercises are sized for a normal laptop, and we use free notebook GPUs for the one or two tasks that need them.
+  - question: Will we build something like a face-recognition attendance system?
+    answer: You will build the recognition prototype and measure it. Deploying such a system responsibly involves data-protection decisions we cover directly, because getting those wrong matters more than the model.
+instructor: iraguha-jean-aime
+featured: false
+order: 7
+---
+
+Most machine-learning projects fail before any model is trained, because nobody
+wrote down what a correct answer looks like. This course spends week one there,
+and keeps returning to it.
+
+You will collect and label your own dataset — tedious, and the part that
+decides whether anything else works. You will train classifiers, read your own
+overfitting curves, and learn why a model reported at 94% accuracy can be
+useless for the decision it was built to support.
+
+The face-recognition section is taught with its consequences attached. Biometric
+data is not a feature flag: where it is stored, who can see it, how long it is
+kept and what happens when the system is wrong about someone are engineering
+decisions, and they are made before deployment or they are made badly.

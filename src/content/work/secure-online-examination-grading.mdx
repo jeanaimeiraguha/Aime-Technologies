@@ -1,0 +1,112 @@
+---
+title: Secure Online Examination & Automated Grading Engine
+year: null
+category: EdTech
+summary: Timed examinations that survive a dropped connection, and marks that can be explained.
+stack:
+  - Python
+  - FastAPI
+  - React.js
+  - TypeScript
+  - MySQL
+  - Docker
+client: null
+role: Architecture, grading engine, backend, frontend
+screenshots: []
+links: []
+placeholder: true
+order: 3
+---
+
+## Problem
+
+An online examination has two failure modes that matter. The first is technical:
+a connection drops twenty minutes into a two-hour paper and the candidate's work
+is gone. The second is institutional: a mark is disputed, and nobody can explain
+how it was produced.
+
+Both destroy trust in the result, which is the only thing an examination
+produces.
+
+<TodoBlock title="Confirm the problem statement">
+  Replace with the real context: what kind of examinations, how many candidates per session,
+  what was used before, and which of the two failure modes prompted the work.
+</TodoBlock>
+
+## Constraints
+
+- Candidates sit papers on varied devices over connections that drop.
+- A dropped connection must not cost a candidate their answers or their time.
+- Every automatic mark must be traceable to the rule that produced it, months
+  later.
+- Teachers must be able to override any automatic mark, and the override must be
+  recorded.
+- Question banks must support randomisation without making papers unequal in
+  difficulty.
+- The system is used hardest in a narrow window — an examination session is a
+  load spike, not steady traffic.
+
+## Architecture
+
+Answers are saved as they are entered, per question, against a server-side
+session that owns the clock. The client is not trusted with remaining time, so a
+refresh, a crash or a different device resumes the same session with the same
+time left and the answers already saved.
+
+<ArchitectureSlot label="Architecture diagram — session service, answer store, grading engine, audit log" />
+
+Grading is a separate deterministic engine. It takes a submission and a rubric
+version and produces a mark plus the identifier of every rule it applied,
+written to an append-only audit log.
+
+## Key decisions & trade-offs
+
+**The server owns the clock.** Timing a paper in the browser is simpler and
+indefensible — the clock can be paused, and a crash loses the elapsed time.
+Server-held sessions mean more state to manage and made resumption correct,
+which is the requirement that actually mattered.
+
+**Save per answer, not per paper.** Every answer is persisted as it changes
+rather than on submit. It is far more write traffic for the database to absorb
+during a session spike, and it is the difference between a dropped connection
+costing a candidate nothing and costing them everything.
+
+**Deterministic grading, versioned rubrics.** The engine has no randomness and
+no model inference: the same submission against the same rubric version always
+produces the same mark. Rubrics are versioned, so re-grading a historical paper
+reproduces the original result exactly. This rules out the flexibility of
+accepting loosely-worded free-text answers automatically — those go to a teacher
+instead, which is where that judgement belongs.
+
+**Validated against papers already marked by hand.** Before the engine graded
+anything for real, it was run against past papers that teachers had marked
+manually, and every disagreement was examined. Several were the engine being
+right and several were the rubric being ambiguous, which was the more valuable
+finding.
+
+**Randomisation within difficulty bands.** Questions are drawn randomly from
+bands rather than from the whole bank, so two candidates get different papers of
+comparable difficulty. Pure randomisation is easier to build and produces unfair
+papers.
+
+## Results
+
+<TodoBlock title="Results — real numbers only">
+  Needs: candidates per session, sessions run, how many papers were recovered after a connection
+  loss, agreement rate between the engine and manual marking during validation, disputes raised
+  and how many were resolved using the audit trail, marking time before and after. State only
+  what the institution has agreed can be published.
+</TodoBlock>
+
+## What we would do differently
+
+We would build the audit log before the grading engine. It was designed in from
+the start but implemented second, and for a short period there were marks whose
+rule trail was thinner than it should have been. For a system whose entire value
+is defensibility, the audit trail is the feature, not the instrumentation around
+it.
+
+We would also load-test with a full cohort starting within the same sixty
+seconds much earlier. An examination is not steady traffic — everyone begins at
+once, and the first version's connection pool was sized for an average that
+never occurs.

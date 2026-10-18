@@ -1,0 +1,104 @@
+---
+code: IOT-230
+title: 'IoT: Sensors, Connectivity & Dashboards'
+category: Embedded & IoT
+level: Intermediate
+summary: Get readings off a device, into a server and onto a dashboard that raises alerts.
+duration: 8 weeks
+schedule: null
+price: null
+format:
+  - Live online
+  - Recorded lessons
+  - Project work
+  - Mentorship
+language: English
+whoItsFor:
+  - Graduates of EMB-201, or anyone with firmware experience
+  - Developers who need the server half of a hardware project
+  - Teams monitoring equipment, storage conditions or utilities
+prerequisites:
+  - Able to flash firmware to an ESP32 and read a sensor
+  - Basic programming in Python or JavaScript
+  - Understands what an HTTP request is
+whatYouBuild:
+  - A device that publishes sensor readings over MQTT and buffers them when offline
+  - An ingestion service storing time-series data
+  - A dashboard with history, thresholds and an alert that actually fires
+requirements:
+  - A laptop with at least 8 GB of RAM
+  - An ESP32 board and at least one sensor — the EMB-201 kit covers this
+  - A Wi-Fi network you can connect a device to
+syllabus:
+  - label: Week 1
+    title: What an IoT system is made of
+    points:
+      - Device, transport, broker, store, dashboard — and where each one fails
+      - Choosing what to measure, and how often it is worth sending
+      - Designing a message schema you will not regret
+  - label: Week 2
+    title: Getting on the network
+    points:
+      - Wi-Fi on the ESP32, including reconnection that works
+      - Provisioning credentials without hard-coding them in firmware
+      - Signal strength, retries and backoff
+  - label: Week 3
+    title: MQTT
+    points:
+      - Topics, publish and subscribe, and designing a topic hierarchy
+      - Quality of service levels, and what each one actually guarantees
+      - Last will, retained messages and knowing when a device died
+  - label: Week 4
+    title: Surviving the gaps
+    points:
+      - Buffering readings in flash while the link is down
+      - Timestamping on the device, and clock drift without a real-time clock
+      - Duplicate delivery, and making ingestion idempotent
+  - label: Week 5
+    title: Ingestion and storage
+    points:
+      - A service that receives, validates and stores readings
+      - Time-series storage, retention and downsampling
+      - Rejecting a malformed or impossible reading rather than storing it
+  - label: Week 6
+    title: Dashboards
+    points:
+      - Charting history so a trend is visible at a glance
+      - Current state, last-seen and device health
+      - Showing a gap in the data as a gap, not as a straight line
+  - label: Week 7
+    title: Alerts and security
+    points:
+      - Thresholds, hysteresis and not alerting forty times an hour
+      - Routing an alert to someone who can act
+      - TLS, device identity and why an open broker is a liability
+  - label: Week 8
+    title: Final project and review
+    points:
+      - A complete monitoring system of your own
+      - Review — message design, failure behaviour, alert quality
+      - Pulling the power and the network, then checking what the data shows
+faq:
+  - question: Do I need my own server?
+    answer: No. We work locally and on a free-tier broker during the course, and cover what moving to your own server involves.
+  - question: Is this course about a specific cloud platform?
+    answer: No. We use open protocols — MQTT and HTTP — so what you learn transfers to any platform instead of to one vendor's console.
+  - question: Can I use a Raspberry Pi instead of an ESP32?
+    answer: For the gateway and server parts, yes. For the device, an ESP32 is the better teacher because its constraints are real.
+instructor: iraguha-jean-aime
+featured: true
+order: 6
+---
+
+A device that measures something perfectly and cannot report it is a paperweight.
+This course is the other half of embedded work: moving a reading from a
+microcontroller to a server, storing it so it can be asked questions later, and
+putting it in front of a person who needs to act on it.
+
+The interesting problems are all in the gaps. The Wi-Fi drops for an hour. The
+device resets and loses its clock. The same reading arrives twice. A sensor
+starts returning a plausible but wrong number. We build for all of those, then
+cause them on purpose and check the dashboard tells the truth.
+
+By the end you will have a monitoring system you can unplug and plug back in
+without losing data or trust in it.

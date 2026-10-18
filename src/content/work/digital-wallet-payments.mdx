@@ -1,0 +1,107 @@
+---
+title: Digital Wallet & Payments Platform
+year: null
+category: Fintech
+summary: Balances derived from an append-only ledger, and transactions that cannot be applied twice.
+stack:
+  - Node.js
+  - TypeScript
+  - MySQL
+  - React.js
+  - Docker
+  - Nginx
+client: null
+role: Architecture, ledger design, backend, integrations
+screenshots: []
+links: []
+placeholder: true
+order: 4
+---
+
+## Problem
+
+Money systems fail in a particular way. A request times out, the client retries,
+and the transfer is applied twice. Or the first half of a transaction succeeds,
+the second fails, and a balance is now wrong with nothing in the record to
+explain it.
+
+Once balances cannot be reconciled against history, the only honest fix is to
+stop and count everything by hand.
+
+<TodoBlock title="Confirm the problem statement">
+  Replace with the real context: what the wallet was for, which payment providers were
+  integrated, the transaction volumes involved, and what prompted the build.
+</TodoBlock>
+
+## Constraints
+
+- Mobile money providers time out, respond late, and occasionally confirm a
+  payment twice.
+- Every balance must be explainable from history, at any point in the past.
+- Users retry on a slow connection, often several times, within seconds.
+- Reconciliation against each provider has to be possible daily.
+- Regulatory and audit expectations apply.
+
+<TodoBlock title="Confirm the regulatory position">
+  State which provider integrations were used and what compliance requirements applied. If the
+  project operated under a licence or an agreement that cannot be named publicly, say that
+  plainly rather than implying a status it does not hold.
+</TodoBlock>
+
+## Architecture
+
+A double-entry ledger as the single source of truth. Balances are not stored as
+a mutable number — they are derived from the sum of ledger entries, with
+periodic snapshots so the derivation stays fast as history grows.
+
+<ArchitectureSlot label="Architecture diagram — ledger, balance projection, provider adapters, reconciliation" />
+
+Every operation that touches money carries an idempotency key. A repeated
+request returns the original result instead of creating a second entry.
+
+## Key decisions & trade-offs
+
+**Append-only ledger, derived balances.** No code path updates a balance in
+place. Corrections are made by posting a reversing entry, so the history shows
+what happened and what was done about it. This costs a balance projection to
+maintain and snapshot, and in exchange a balance can always be explained.
+
+**Idempotency keys on every money operation.** The client generates a key per
+intent; the server stores the outcome against it and replays that outcome on a
+retry. This is the single decision that prevented double-charging, and it has to
+be in place before the first integration, not added after the first incident.
+
+**Provider callbacks treated as unreliable.** Webhooks arrive late, out of
+order, twice, or not at all. Each provider adapter also polls for status, and
+both paths converge through the same idempotent handler, so whichever arrives
+first wins and the second is a no-op.
+
+**Daily reconciliation that reports differences loudly.** A scheduled job
+compares the ledger against each provider's statement and raises any discrepancy
+to a person rather than attempting to self-correct. A system that quietly fixes
+its own accounting discrepancies is a system that hides them.
+
+**Snapshot interval chosen by measurement.** Deriving every balance from the
+full history was fast at low volume and would not have stayed fast. The snapshot
+interval was set from measured query times under projected growth rather than
+from a guess.
+
+## Results
+
+<TodoBlock title="Results — real numbers only">
+  Needs: transaction volume and value handled, double-application incidents (ideally zero,
+  stated as measured rather than asserted), reconciliation discrepancies found and resolved,
+  provider timeout rate and how often the retry path was exercised, uptime. Publish nothing in
+  this section that cannot be evidenced.
+</TodoBlock>
+
+## What we would do differently
+
+We would write the reconciliation job in the first week rather than before
+launch. It was the tool that proved the ledger design was correct, and having it
+earlier would have caught two adapter bugs while they were still cheap.
+
+We would also model the fee and rounding rules before building transfers. Fees
+were added as a later requirement, and retrofitting them into a ledger whose
+entries were already in production took longer than designing for them would
+have.

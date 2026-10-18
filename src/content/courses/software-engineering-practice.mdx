@@ -1,0 +1,91 @@
+---
+code: ENG-301
+title: Software Engineering Practice
+category: Software Engineering
+level: Advanced
+summary: Architecture, testing, review and deployment — the difference between writing code and engineering a system.
+duration: 6 weeks
+schedule: null
+price: null
+format:
+  - Live online
+  - Project work
+  - Mentorship
+language: English
+whoItsFor:
+  - Developers with a year or more of experience
+  - Self-taught engineers who want the discipline they skipped
+  - Small teams about to commit to an architecture
+prerequisites:
+  - Has built and shipped at least one non-trivial application
+  - Comfortable with Git, the command line and a database
+  - Willing to have your own code reviewed in front of the group
+whatYouBuild:
+  - A written architecture decision record for a system of your choosing
+  - A test suite that catches a real regression you introduce deliberately
+  - A deployment pipeline with a rollback you have executed
+requirements:
+  - A laptop with at least 8 GB of RAM
+  - An existing project of your own to work on, ideally one with problems
+syllabus:
+  - label: Week 1
+    title: Architecture as decisions
+    points:
+      - Naming the constraint that actually drives the design
+      - Writing a decision record — the options, the trade-off, the choice
+      - Boundaries, coupling and the cost of a wrong boundary
+  - label: Week 2
+    title: Data and correctness
+    points:
+      - Modelling for the questions the system will be asked
+      - Invariants, and enforcing them where they cannot be bypassed
+      - Migrations, backfills and changing a schema under live traffic
+  - label: Week 3
+    title: Testing with judgement
+    points:
+      - What is worth testing, and the tests that only slow you down
+      - Integration tests over real dependencies
+      - Reproducing a bug as a failing test before fixing it
+  - label: Week 4
+    title: Breaking it on purpose
+    points:
+      - Load testing, and finding your own bottleneck by measurement
+      - Security review — injection, access control, secrets, dependencies
+      - Failure injection, timeouts and graceful degradation
+  - label: Week 5
+    title: Review and collaboration
+    points:
+      - Reviewing code usefully, and receiving a review without defending
+      - Documentation that stays true, and the kind that always rots
+      - Handover — what a team needs to run your system without you
+  - label: Week 6
+    title: Operating and finishing
+    points:
+      - Deployment, rollback and release practices
+      - Monitoring, the few alerts worth having, and on-call reality
+      - Final review of each participant's system, in front of the group
+faq:
+  - question: Is this a system-design interview course?
+    answer: No. It is about building and operating a real system, not about performing architecture on a whiteboard. Some of it will help in an interview anyway.
+  - question: Do I need my own project?
+    answer: Strongly preferred — the course works best applied to code you care about and have to live with. If you do not have one, we provide a codebase with deliberate problems in it.
+  - question: Will my code be criticised?
+    answer: It will be reviewed, carefully and in front of the group, because that is the skill being taught. The review is of the code and the decisions, never of the person.
+instructor: iraguha-jean-aime
+featured: false
+order: 9
+---
+
+There is a gap between being able to write code and being able to be trusted
+with a system. It is not about knowing more frameworks. It is about naming the
+constraint that drives the design, writing down why you chose what you chose,
+testing the things that would hurt, breaking your own work before a user does,
+and leaving behind something a team can run without you.
+
+This course is six weeks of that, applied to your own project where possible.
+You will write architecture decision records, review each other's code
+seriously, load-test until you find your own bottleneck, inject failures, and
+execute a rollback for real rather than assuming one would work.
+
+It is the most demanding course we run, and the one that changes how people
+work.

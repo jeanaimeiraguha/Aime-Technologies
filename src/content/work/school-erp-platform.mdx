@@ -1,0 +1,112 @@
+---
+title: School ERP Platform
+# TODO: confirm the delivery year, then set it here (e.g. "2025").
+year: null
+category: EdTech / ERP
+summary: One system for enrolment, attendance, marks, report cards, timetables and fees.
+stack:
+  - React.js
+  - TypeScript
+  - Node.js
+  - MySQL
+  - Docker
+  - Nginx
+# Never set a client name without written permission to publish it.
+client: null
+role: Architecture, backend, frontend, deployment
+screenshots: []
+links: []
+# Remove this line once every TODO below has been answered.
+placeholder: true
+order: 1
+---
+
+## Problem
+
+A school's administrative year is the same work repeated every term: enrol and
+place students, record attendance, collect marks from every teacher, apply the
+grading scale, produce report cards, build a timetable, invoice fees and chase
+balances, then report all of it upward.
+
+Run on paper and spreadsheets, each of those steps is survivable alone. Together
+they produce a specific failure: nobody can answer a simple question — what is
+this student's current balance, what was their average last term, how many
+lessons did they miss — without someone spending an afternoon collating files
+that disagree with each other.
+
+<TodoBlock title="Confirm the problem statement">
+  Replace this section with the real situation at the school this was built for: how many
+  students and staff, what they used before, and which specific question nobody could answer.
+  The detail is what makes a case study credible.
+</TodoBlock>
+
+## Constraints
+
+- Teachers enter marks from their own phones, not from a school computer room.
+- The connection at the school is unreliable, and a lost connection must never
+  lose a set of entered marks.
+- The grading scale, promotion rules and report card layout are specific to the
+  school and change between terms — they cannot be compiled into the code.
+- Existing student records live in spreadsheets with inconsistent names, missing
+  identifiers and duplicates, and have to be carried over.
+- Fee data is sensitive. Teachers must not see balances; the bursar must not see
+  disciplinary notes.
+
+## Architecture
+
+A single application behind one API, with the academic rules held in
+configuration rather than in code. Marks entry is written to local storage on
+the device first and synced when the connection returns, so a dropped
+submission is a delay rather than a loss.
+
+<ArchitectureSlot label="Architecture diagram — data model, services, sync path" />
+
+Roles are enforced on the server, per field rather than per page: the same
+student record returns different fields to a teacher, a bursar and a head
+teacher.
+
+## Key decisions & trade-offs
+
+**Grading rules as data, not code.** Scales, weightings, promotion criteria and
+resit handling are stored as configuration a senior staff member can edit, with
+a preview against last term's real marks before anything is applied. The cost is
+a more complex engine and a configuration interface that needs its own
+validation; the benefit is that a new scale does not require a developer or a
+deployment.
+
+**Offline-first for marks entry only.** Full offline support across the whole
+system would have doubled the work and introduced conflicts everywhere. Marks
+entry is the one place where a lost connection destroys real effort, so that is
+the only flow that buffers locally and syncs.
+
+**Report cards rendered server-side as PDFs.** Browser printing produced
+different output on every teacher's device. Rendering on the server makes the
+layout exact and reproducible, at the cost of a slower generation step for a
+whole class.
+
+**Data import treated as its own project.** The spreadsheet migration was
+scoped, scripted and reconciled separately, with a report of every duplicate and
+unmatched record for the school to resolve by hand before go-live. Pretending
+this is a quick step is how an ERP rollout fails in its first week.
+
+## Results
+
+<TodoBlock title="Results — real numbers only">
+  Do not publish this case study until this section contains measured outcomes that the school
+  has agreed can be stated publicly. Useful and verifiable: number of students and staff on the
+  system, time to produce end-of-term report cards before and after, fee collection reporting
+  time, how long the migration took, uptime over the first term. If none of that can be shared,
+  say so and delete the section — an empty results claim is worse than none.
+</TodoBlock>
+
+## What we would do differently
+
+Timetabling was underestimated. It looks like a scheduling feature and is
+actually a constraint-satisfaction problem with a different set of rules in every
+school. It should have been scoped as its own phase rather than carried along
+with the first release.
+
+We would also build the configuration preview before the grading engine rather
+than after. Staff were reluctant to change a scale until they could see its
+effect on marks they recognised, and that confidence was what made the
+configurable approach pay off.

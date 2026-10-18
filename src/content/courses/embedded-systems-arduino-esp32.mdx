@@ -1,0 +1,106 @@
+---
+code: EMB-201
+title: Embedded Systems with Arduino & ESP32
+category: Embedded & IoT
+level: Beginner
+summary: Write firmware for real hardware — sensors, actuators, timing and power — on Arduino and ESP32.
+duration: 8 weeks
+schedule: null
+price: null
+format:
+  - Live online
+  - Recorded lessons
+  - Project work
+  - Mentorship
+language: English
+whoItsFor:
+  - Beginners who want to build devices rather than only software
+  - Students in electronics or engineering who need the firmware side
+  - Developers moving from web or mobile into hardware
+prerequisites:
+  - Basic programming in any language — loops, functions, conditionals
+  - No electronics background required
+  - Willing to measure and debug patiently
+whatYouBuild:
+  - A sensor device that reads, filters and displays a measurement
+  - A controller that acts on a threshold and recovers from a reset
+  - A battery-powered build that sleeps between readings
+requirements:
+  - A laptop running Windows, macOS or Linux, with a USB port
+  - A hardware kit — ESP32 development board, breadboard, jumper wires, resistors, LEDs, push buttons, a temperature and humidity sensor, an OLED or LCD display, and a USB cable
+  - A multimeter, strongly recommended
+syllabus:
+  - label: Week 1
+    title: The board and the toolchain
+    points:
+      - What a microcontroller is, and how it differs from the computer you program on
+      - Flashing your first firmware, and what actually happens on upload
+      - GPIO, pinouts and reading a datasheet without reading all of it
+  - label: Week 2
+    title: Digital input and output
+    points:
+      - Driving LEDs and reading buttons
+      - Pull-up and pull-down resistors, and why a floating pin lies to you
+      - Debouncing — a mechanical problem solved in software
+  - label: Week 3
+    title: Analogue and sensors
+    points:
+      - ADC resolution, reference voltage and what your reading really means
+      - Reading temperature and humidity over a digital bus
+      - Calibration, drift and filtering a noisy signal
+  - label: Week 4
+    title: Timing
+    points:
+      - Why delay() ruins a program, and what to do instead
+      - Timers, interrupts and what is unsafe inside one
+      - Scheduling several tasks on one core without an operating system
+  - label: Week 5
+    title: Buses and displays
+    points:
+      - I²C and SPI — wiring, addressing and debugging a silent bus
+      - Driving an OLED or LCD
+      - Finding out why a device does not answer
+  - label: Week 6
+    title: Power
+    points:
+      - Measuring consumption rather than estimating it
+      - Sleep modes, wake sources and the cost of waking up
+      - Battery life arithmetic, and brown-out behaviour
+  - label: Week 7
+    title: Reliability
+    points:
+      - Watchdog timers, and recovering without a person present
+      - Storing state so a reset does not lose the last reading
+      - Defensive firmware — a failed sensor must not stop the device
+  - label: Week 8
+    title: Final project and review
+    points:
+      - Building a complete device of your own design
+      - Review — schematic, firmware structure, power budget
+      - Deliberately unplugging, shorting and starving it, then fixing what breaks
+faq:
+  - question: Do I need to buy the hardware kit?
+    answer: Yes. This course cannot be done in simulation alone — the problems worth learning only appear on real hardware. We will publish the exact component list, and it is widely available locally.
+  - question: Do you supply the kit?
+    answer: Ask when you enrol and we will point you to where the components are available locally. Whether we supply assembled kits directly is not settled yet, so we will not promise it here.
+  - question: Arduino or ESP32 — which do we use?
+    answer: We start with the Arduino framework because the tooling is gentle, and move to the ESP32 because it has Wi-Fi, more memory and real sleep modes. The same firmware concepts apply to both.
+  - question: Is soldering required?
+    answer: No. Everything is on a breadboard. We cover when you would move to a soldered board and what changes.
+instructor: iraguha-jean-aime
+featured: true
+order: 5
+---
+
+Software on a server can be restarted by a person. Firmware on a device in a
+store room, three months into a deployment, cannot. That difference is what
+embedded work teaches you, and it makes you a better engineer everywhere else.
+
+Over eight weeks you will wire real circuits, read real datasheets, and find out
+how a sensor behaves when its reading drifts or its wire comes loose. You will
+measure current draw with a meter instead of estimating it, calculate a battery
+life and then test whether you were right.
+
+The final project is a device of your own design. It has to survive being
+unplugged mid-write, having a sensor disconnected, and running on battery
+overnight. If it recovers on its own, you have understood the course.

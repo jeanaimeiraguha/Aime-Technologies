@@ -1,0 +1,114 @@
+---
+code: API-210
+title: Backend Engineering
+category: Web
+level: Intermediate
+summary: APIs that hold up — with FastAPI, Spring Boot or Laravel, and the design that applies to all three.
+duration: 10 weeks
+schedule: null
+price: null
+format:
+  - Live online
+  - Recorded lessons
+  - Project work
+  - Mentorship
+language: English
+whoItsFor:
+  - Frontend developers who want to own the server side
+  - Developers maintaining an API someone else designed badly
+  - Anyone building a system where correctness matters more than screens
+prerequisites:
+  - Able to write functions, classes and basic SQL
+  - Some experience in Python, Java or PHP
+  - Comfortable with Git and the command line
+whatYouBuild:
+  - An API with authentication, roles, pagination, validation and documentation
+  - A background job queue handling work that must not be lost
+  - A service that stays correct when the same request arrives twice
+requirements:
+  - A laptop with at least 8 GB of RAM
+  - Docker installed, or willingness to install it in week one
+  - A GitHub account
+syllabus:
+  - label: Week 1
+    title: What a backend is responsible for
+    points:
+      - The server is the only place rules can be enforced
+      - Choosing a framework — FastAPI, Spring Boot and Laravel compared on real criteria
+      - Project layout that survives growth
+  - label: Week 2
+    title: API design
+    points:
+      - Resources, verbs and status codes used as intended
+      - Pagination, filtering and sorting without inventing a query language
+      - Versioning, and how to change an API without breaking its clients
+  - label: Week 3
+    title: Validation and errors
+    points:
+      - Validating at the boundary, with schemas rather than conditionals
+      - Error responses a client can act on programmatically
+      - Never leaking internals in an error message
+  - label: Week 4
+    title: Data modelling under pressure
+    points:
+      - Indexes, and measuring a query instead of guessing
+      - Transactions, isolation levels and what actually happens concurrently
+      - Soft deletes, audit trails and history you will need later
+  - label: Week 5
+    title: Authentication and authorisation
+    points:
+      - Token issuance, refresh and revocation
+      - Role and permission models that do not collapse at the fourth role
+      - Rate limiting and abuse protection
+  - label: Week 6
+    title: Idempotency and retries
+    points:
+      - Why the same request will arrive twice, and what that costs
+      - Idempotency keys, and designing operations that can be repeated safely
+      - Retries, backoff and the difference between safe and unsafe failure
+  - label: Week 7
+    title: Background work
+    points:
+      - Queues, workers and jobs that must not be lost
+      - Scheduled tasks, and failures that notify a human
+      - Long-running work without blocking a request
+  - label: Week 8
+    title: Testing a backend
+    points:
+      - Integration tests against a real database
+      - Testing concurrency and duplicate delivery
+      - Fixtures and factories that do not rot
+  - label: Week 9
+    title: Operating it
+    points:
+      - Structured logging and request tracing
+      - Health checks, metrics and the few alerts worth having
+      - Migrations against a live database with no downtime
+  - label: Week 10
+    title: Final project and review
+    points:
+      - Completing your API with documentation a stranger could use
+      - Load testing, and finding your own bottleneck
+      - Review — security, correctness, failure behaviour
+faq:
+  - question: Which framework will I actually learn?
+    answer: You pick one for your project. Teaching covers the design decisions, which are the same in all three, and we show the same problem solved in each so the ideas do not get confused with one framework's conventions.
+  - question: Is this a microservices course?
+    answer: No. You will learn to build one service properly, and we are direct about when splitting a system helps and when it just multiplies the failure modes.
+  - question: Do I need to know SQL first?
+    answer: Basic SELECT and JOIN is enough to start. Week four goes considerably deeper.
+instructor: iraguha-jean-aime
+featured: true
+order: 3
+---
+
+A backend is where the rules live. The interface can be rebuilt in a month; a
+data model that was wrong from the start follows a company for years.
+
+This course is about the parts that are invisible until they fail: the request
+that arrives twice because a phone lost signal mid-submit, the job that must not
+be dropped, the query that was fast with two hundred rows and is unusable with
+two hundred thousand, the permission check that was only in the frontend.
+
+You pick one framework for your project — FastAPI, Spring Boot or Laravel — and
+we teach the design decisions, which are the same whichever you chose.

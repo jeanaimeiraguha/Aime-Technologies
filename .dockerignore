@@ -1,0 +1,26 @@
+# Build artefacts and dependencies are produced inside the image.
+node_modules
+.next
+out
+build
+
+# Version control and tooling
+.git
+.gitignore
+.github
+.vscode
+.idea
+
+# Local environment — never bake real values into an image layer
+.env
+.env.local
+.env.*.local
+
+# Docs and local output
+README.md
+Dockerfile
+.dockerignore
+nginx.conf
+screenshots
+lighthouse
+*.log

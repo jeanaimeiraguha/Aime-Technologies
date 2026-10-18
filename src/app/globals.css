@@ -1,0 +1,555 @@
+@import 'tailwindcss';
+
+/* ===========================================================================
+   Aime Technologies — design tokens
+   Editorial, typography-led. Two themes, one accent hue.
+
+   The accent is defined per theme rather than once: a single orange cannot
+   clear WCAG AA against both #0B0B0C and #F5F3EE, so dark uses the brighter
+   signal orange and light uses a darker cut of the same hue.
+
+   Measured contrast (text on background), all clearing AA for normal text:
+     dark   text 16.5:1 · muted 5.7:1 · faint 4.7:1 · accent 5.2:1
+     light  text 17.2:1 · muted 5.8:1 · faint 4.9:1 · accent 5.2:1
+
+   `faint` is the quietest token and is used at 13px, so it is held to 4.5:1
+   rather than the 3:1 large-text threshold. It is checked against the sunken
+   surface as well as the page background, which is the tighter of the two.
+   =========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  --paper: #f5f3ee;
+  --surface: #ffffff;
+  --surface-sunken: #efece5;
+  --ink: #111113;
+  --ink-muted: #5e5e63;
+  /* 4.9:1 on paper, 4.7:1 on the sunken surface — mono meta is 13px, so it
+     must clear 4.5:1 as normal-size text, not the 3:1 large-text threshold. */
+  --ink-faint: #6b6964;
+  --hairline: #dad7cf;
+  --hairline-strong: #c4c0b5;
+  --accent: #b0420e;
+  --accent-hover: #8e350b;
+  --accent-wash: rgb(176 66 14 / 0.07);
+  /* Strength of the hero code backdrop. Dark needs more to read as texture. */
+  --code-veil: 0.2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+
+    --paper: #0b0b0c;
+    --surface: #141416;
+    --surface-sunken: #101012;
+    --ink: #edebe6;
+    --ink-muted: #8a8a8e;
+    /* 4.7:1 on paper, 4.6:1 on the sunken surface. */
+    --ink-faint: #7c7c80;
+    --hairline: #26262a;
+    --hairline-strong: #35353a;
+    --accent: #e0561b;
+    --accent-hover: #f07239;
+    --accent-wash: rgb(224 86 27 / 0.1);
+    --code-veil: 0.26;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --paper: #0b0b0c;
+  --surface: #141416;
+  --surface-sunken: #101012;
+  --ink: #edebe6;
+  --ink-muted: #8a8a8e;
+  /* 4.7:1 on paper, 4.6:1 on the sunken surface. */
+  --ink-faint: #7c7c80;
+  --hairline: #26262a;
+  --hairline-strong: #35353a;
+  --accent: #e0561b;
+  --accent-hover: #f07239;
+  --accent-wash: rgb(224 86 27 / 0.1);
+  --code-veil: 0.26;
+}
+
+/* ---------------------------------------------------------------------------
+   Touch hit areas.
+
+   The type on this site is deliberately compact, which leaves links and nav
+   items around 21px tall — fine for a mouse, too small for a thumb. Rather
+   than inflate everything for everyone, these rules apply only where the
+   primary input is coarse, so a phone or tablet gets ~44px targets while the
+   desktop layout keeps its density.
+
+   `.tap` uses padding on an inline element: that expands the hit box without
+   changing the line box, so nothing moves. `.tap-icon` is for compact square
+   controls, which have to grow in both directions.
+   --------------------------------------------------------------------------- */
+
+@media (pointer: coarse) {
+  .tap {
+    padding-block: 0.8125rem;
+  }
+
+  .tap-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Theme-toggle icon.
+
+   Which icon shows is decided in CSS, by exactly the same selectors that
+   decide the theme itself, so it is correct in the very first painted frame.
+   Doing it in JavaScript would mean the icon is unknowable during server
+   render and would either flash or shift once the component mounts.
+
+   The button shows the theme it switches TO: a moon while light, a sun while
+   dark.
+   --------------------------------------------------------------------------- */
+
+.theme-icon-sun {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .theme-icon-sun {
+    display: block;
+  }
+
+  :root:not([data-theme='light']) .theme-icon-moon {
+    display: none;
+  }
+}
+
+:root[data-theme='dark'] .theme-icon-sun {
+  display: block;
+}
+
+:root[data-theme='dark'] .theme-icon-moon {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Hero code backdrop.
+
+   Three columns of our own source drifting behind the headline. The component
+   is `src/components/home/CodeBackdrop.tsx`; everything that decides how it
+   looks and whether it moves lives here.
+
+   Two decisions are load-bearing:
+
+   1. Two masks, intersected, rather than one opacity. The horizontal ramp
+      clears the left of the hero where 68px display type sits, the vertical
+      one dies out before the "What we do" trio. A flat 20% layer across the
+      whole section would have put texture directly under the headline, which
+      is the usual way this effect ruins a page.
+
+   2. The scroll is one transform on a doubled block: the column renders its
+      source twice and travels exactly -50%, so copy two arrives where copy
+      one started and the loop has no seam. Nothing is measured, nothing runs
+      in JavaScript, and the whole thing stays on the compositor.
+
+   Durations and direction come from inline styles, so the three columns run
+   at different speeds and are never in step.
+   --------------------------------------------------------------------------- */
+
+.code-backdrop {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 90%;
+  z-index: -1;
+  display: flex;
+  gap: 2.5rem;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  opacity: var(--code-veil);
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 2;
+
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, rgb(0 0 0 / 0.45) 42%, #000 78%),
+    linear-gradient(to bottom, transparent, #000 12%, #000 56%, transparent 86%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent, rgb(0 0 0 / 0.45) 42%, #000 78%),
+    linear-gradient(to bottom, transparent, #000 12%, #000 56%, transparent 86%);
+  mask-composite: intersect;
+}
+
+@media (min-width: 48rem) {
+  .code-backdrop {
+    width: 78%;
+    gap: 3.5rem;
+  }
+}
+
+.code-backdrop__column {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.code-backdrop__scroll {
+  animation-name: code-backdrop-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.code-backdrop__line {
+  white-space: pre;
+}
+
+.code-backdrop__keyword {
+  color: var(--ink-muted);
+}
+
+.code-backdrop__string,
+.code-backdrop__number {
+  color: var(--accent);
+}
+
+@keyframes code-backdrop-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+/*
+ * The global reduced-motion rule collapses durations to 0.01ms, which for a
+ * loop like this one would snap it to its end frame rather than stop it.
+ * Clearing the animation name is what actually holds it still, and the
+ * backdrop stays as static texture.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .code-backdrop__scroll {
+    animation: none;
+  }
+}
+
+/* Map the runtime tokens into Tailwind's theme. `inline` keeps the var
+   reference in the generated utility, so theme switching works at runtime. */
+@theme inline {
+  --color-*: initial;
+
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-sunken: var(--surface-sunken);
+  --color-ink: var(--ink);
+  --color-muted: var(--ink-muted);
+  --color-faint: var(--ink-faint);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-wash: var(--accent-wash);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SFMono-Regular', monospace;
+
+  /*
+   * Five sizes, no more.
+   *
+   * Scaled up from the first draft to carry more presence, taking the
+   * proportions of a conventional marketing site (hero ~60px/700, section
+   * heads ~36px/700, body 16px) but keeping display line-height tight. The
+   * reference that prompted this set its 60px hero on 75px leading — 1.25,
+   * which is body spacing applied to display type and reads soft. Here the
+   * hero sits at 1.02 and titles at 1.1, so the larger sizes gain weight
+   * without losing their edge.
+   *
+   * Body drops 17px -> 16px deliberately: widening the gap between body and
+   * headings is what produces hierarchy, and it is cheaper than making the
+   * headings louder still.
+   */
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.5;
+  --text-meta--letter-spacing: 0.04em;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-lead: 1.25rem;
+  --text-lead--line-height: 1.5;
+  --text-title: clamp(1.875rem, 3.2vw, 2.375rem);
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.025em;
+  --text-hero: clamp(2.75rem, 6.5vw, 4.25rem);
+  --text-hero--line-height: 1.02;
+  --text-hero--letter-spacing: -0.035em;
+
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+
+  --container-content: 75rem;
+
+  --ease-ui: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===========================================================================
+   Base
+   =========================================================================== */
+
+@layer base {
+  * {
+    border-color: var(--hairline);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    /*
+     * No `scroll-behavior: smooth` here, deliberately. It does not only affect
+     * anchor links: the App Router scrolls to the top on every client-side
+     * navigation, and a smooth root turns that into an animated ~800ms glide up
+     * the old page. Measured from a course row halfway down /academy, the new
+     * page drifted 2500px upward instead of simply starting at the top.
+     * Instant is also the better default for motion sensitivity.
+     */
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * Display weights carry the hierarchy now. 700 for the two levels that act
+   * as display type, 600 for the subheads below them — a real step between
+   * levels rather than one medium weight doing every job.
+   * Instrument Sans is variable up to 700, so no extra file is fetched.
+   */
+  h1,
+  h2 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  h3,
+  h4 {
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  /* Dates, durations and course codes must not jitter between rows. */
+  code,
+  kbd,
+  samp,
+  pre,
+  time,
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 1px;
+  }
+
+  /* Only deliberate hover/focus transitions. Nothing on entry. */
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  summary {
+    transition:
+      color 160ms var(--ease-ui),
+      background-color 160ms var(--ease-ui),
+      border-color 160ms var(--ease-ui),
+      text-decoration-color 160ms var(--ease-ui);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* Scrolling is already instant for everyone — see the note on html above. */
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Firefox glows red on :invalid before a field is ever touched. */
+  input:invalid,
+  select:invalid,
+  textarea:invalid {
+    box-shadow: none;
+  }
+}
+
+/* ===========================================================================
+   Long-form MDX bodies: case studies, course syllabi, legal pages.
+   =========================================================================== */
+
+.prose {
+  max-width: 65ch;
+}
+
+.prose > * + * {
+  margin-top: 1.5rem;
+}
+
+.prose h2 {
+  margin-top: 3rem;
+  font-size: var(--text-lead);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.prose h3 {
+  margin-top: 2rem;
+  font-size: var(--text-body);
+  font-weight: 600;
+}
+
+.prose h2 + *,
+.prose h3 + * {
+  margin-top: 0.75rem;
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.prose a:hover {
+  color: var(--accent-hover);
+}
+
+.prose ol {
+  padding-left: 1.125rem;
+  list-style: decimal;
+}
+
+.prose ol > li::marker {
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+}
+
+/* An en dash reads as considered; a filled bullet reads as a template. */
+.prose ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.prose ul > li {
+  position: relative;
+  padding-left: 1.125rem;
+}
+
+.prose ul > li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--ink-faint);
+}
+
+.prose li + li {
+  margin-top: 0.5rem;
+}
+
+.prose strong {
+  font-weight: 600;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-xs);
+  padding: 0.1em 0.3em;
+}
+
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  line-height: 1.7;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.prose blockquote {
+  border-left: 1px solid var(--hairline-strong);
+  padding-left: 1.25rem;
+  color: var(--ink-muted);
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  margin-block: 2.5rem;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-meta);
+  font-family: var(--font-mono);
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  padding: 0.625rem 1rem 0.625rem 0;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+}
+
+.prose th {
+  color: var(--ink-muted);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}

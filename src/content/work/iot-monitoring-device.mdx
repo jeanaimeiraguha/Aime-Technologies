@@ -1,0 +1,99 @@
+---
+title: IoT Monitoring Device
+year: null
+category: Embedded & IoT
+summary: A battery-powered sensor node that buffers readings through outages and raises alerts.
+stack:
+  - C/C++
+  - ESP32
+  - MicroPython
+  - MQTT
+  - Python
+  - Linux
+client: null
+role: Firmware, hardware integration, ingestion service, dashboard
+screenshots: []
+links: []
+placeholder: true
+order: 5
+---
+
+## Problem
+
+A condition worth monitoring — temperature in a store room, a water level, power
+on a line — is only worth monitoring if someone finds out when it goes wrong.
+Checking a gauge by hand means the problem is discovered on the next round,
+which may be hours after the thing it was meant to protect was lost.
+
+<TodoBlock title="Confirm the problem statement">
+  Replace with the real deployment: what was measured, where, at what interval, what the
+  consequence of a missed excursion was, and how it was monitored before.
+</TodoBlock>
+
+## Constraints
+
+- The device runs unattended for months with nobody to restart it.
+- Mains power is not available or not reliable at the measurement point, so it
+  runs on battery.
+- Wi-Fi coverage at the site is marginal and drops for long periods.
+- A gap in the data must be visible as a gap, not interpolated away.
+- The total hardware cost per node has to stay low enough to deploy several.
+
+## Architecture
+
+An ESP32 wakes on a timer, takes a reading, timestamps it, stores it in flash,
+publishes any buffered readings over MQTT if the network is available, and
+returns to deep sleep. The ingestion service validates each reading, rejects
+impossible values and writes to a time-series store; the dashboard shows
+history, current state, device health and last-seen.
+
+<ArchitectureSlot label="Architecture diagram — sensor, ESP32 sleep cycle, flash buffer, MQTT broker, ingestion, dashboard" />
+
+## Key decisions & trade-offs
+
+**Buffer in flash, send opportunistically.** The device does not depend on the
+network being up at the moment of measurement. Readings accumulate locally and
+drain when a connection is available, so a day-long outage produces a late
+dataset rather than a missing one. The cost is flash wear management and
+handling duplicate delivery at the other end.
+
+**Timestamp on the device, correct on arrival.** Without a real-time clock the
+device's time drifts and is wrong after a reset. Each reading carries the
+device's uptime-based timestamp and the server reconciles against the time the
+batch arrived, so ordering survives a clock it cannot fully trust. A real-time
+clock module would have been cleaner and added cost per node.
+
+**Watchdog and defensive sensor handling.** A hung bus or a failed sensor must
+not take the node offline. The firmware records a failed read as an explicit
+failure, keeps the sleep cycle running, and lets the watchdog recover a hang.
+A device that stops reporting is indistinguishable from a device nobody
+installed.
+
+**Deep sleep sized by measured current.** Sleep interval and battery life were
+set from current draw measured with a meter across a full cycle, including the
+expensive radio wake. Estimated figures from a datasheet were out by enough to
+matter.
+
+**Alerts with hysteresis.** A threshold crossed repeatedly at the boundary
+generates dozens of alerts and trains people to ignore them. Alerts fire on a
+sustained excursion and clear on a sustained return.
+
+## Results
+
+<TodoBlock title="Results — real numbers only">
+  Needs: nodes deployed, measured battery life, longest network outage survived with no data
+  loss, readings delivered versus expected, alerts raised and how many were actionable,
+  calibration drift over the deployment. Measured values only.
+</TodoBlock>
+
+## What we would do differently
+
+We would add a local indicator — a single LED pattern showing last reading and
+link state — in the first version. Diagnosing a quiet node on site without one
+means pulling it and connecting a laptop, and that cost more time across the
+deployment than the part would have.
+
+We would also treat enclosure and mounting as part of the engineering rather
+than an afterthought. Condensation and a sensor mounted slightly too close to a
+wall both produced readings that were plausible and wrong, which is the worst
+kind of wrong.

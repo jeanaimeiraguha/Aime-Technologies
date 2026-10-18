@@ -1,0 +1,115 @@
+---
+code: MOB-220
+title: Mobile App Development with Flutter
+category: Mobile
+level: Intermediate
+summary: Build Android apps in Flutter that work on mid-range phones and unreliable connections.
+duration: 10 weeks
+schedule: null
+price: null
+format:
+  - Live online
+  - Recorded lessons
+  - Project work
+  - Mentorship
+language: English
+whoItsFor:
+  - Developers moving from web to mobile
+  - Teams that need one codebase for Android and iOS
+  - Anyone building for users whose phone is their only computer
+prerequisites:
+  - Comfortable with one programming language and its object model
+  - Understands what an HTTP API is
+  - Git basics
+whatYouBuild:
+  - An Android application that reads and writes against a real API
+  - Local storage and a sync strategy so the app works offline
+  - A signed release build, installed on a physical device
+requirements:
+  - A laptop with at least 8 GB of RAM — Flutter tooling is demanding
+  - An Android phone for testing, ideally a mid-range one
+  - A USB cable, and about 15 GB of free disk space
+syllabus:
+  - label: Week 1
+    title: Flutter and Dart
+    points:
+      - Dart in one week, for people who already program
+      - How the widget tree renders, and why rebuilds matter
+      - Setting up the toolchain and running on a real device
+  - label: Week 2
+    title: Layout
+    points:
+      - Rows, columns, constraints and the errors they produce
+      - Building a screen that survives a small phone and a large one
+      - Lists, scrolling and performance on long content
+  - label: Week 3
+    title: State
+    points:
+      - Local state, lifted state and shared state
+      - One state-management approach taught properly rather than four superficially
+      - Forms and validation
+  - label: Week 4
+    title: Navigation
+    points:
+      - Routes, arguments and deep links
+      - Keeping state across navigation
+      - Back-button behaviour that does not surprise anyone
+  - label: Week 5
+    title: Talking to an API
+    points:
+      - HTTP clients, serialisation and typed models
+      - Loading, empty and error states designed as real screens
+      - Authentication and secure token storage on the device
+  - label: Week 6
+    title: Working offline
+    points:
+      - Local storage, and choosing what is worth caching
+      - Queueing writes made while offline
+      - Conflict handling when the same record changed on both sides
+  - label: Week 7
+    title: Device capabilities
+    points:
+      - Camera, files and permissions requested at the right moment
+      - Notifications
+      - Handling a permission the user denied
+  - label: Week 8
+    title: Performance on real phones
+    points:
+      - Profiling, and finding what actually drops frames
+      - Image sizes, caching and data use — which costs your users money
+      - Reducing application size
+  - label: Week 9
+    title: Release
+    points:
+      - Signing, build flavours and versioning
+      - Play Store requirements and submission assets
+      - Crash reporting and reading a stack trace from the field
+  - label: Week 10
+    title: Final project and review
+    points:
+      - Completing and demonstrating your application on a device
+      - Review — architecture, offline behaviour, performance
+      - Testing on a deliberately slow connection
+faq:
+  - question: Do I need a Mac to build for iOS?
+    answer: Yes, for compiling and submitting an iOS build. The course targets Android, and everything you learn applies to iOS when you have access to a Mac.
+  - question: Can I test on an emulator instead of a phone?
+    answer: You can develop on one, but you must test on a physical device. An emulator on a developer laptop tells you nothing about how the app feels on a four-year-old phone.
+  - question: Why Flutter rather than React Native?
+    answer: One codebase, predictable rendering across devices, and good performance on low-end Android. We say where React Native would be the better choice instead.
+instructor: iraguha-jean-aime
+featured: true
+order: 4
+---
+
+Most of your users will open your application on a mid-range Android phone,
+over a connection that drops in a lift and costs them money by the megabyte.
+That constraint, not the framework, is what this course is built around.
+
+You will build one application across ten weeks — API-backed, authenticated,
+working offline, profiled on a real device and shipped as a signed release.
+Along the way you will test it on a throttled connection and watch what your
+own loading states do when the request takes nine seconds.
+
+Flutter is the tool. Building something that holds up outside a demo is the
+subject.

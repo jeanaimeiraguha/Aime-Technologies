@@ -1,0 +1,78 @@
+---
+code: OPS-150
+title: Linux, Git & Docker for Developers
+category: DevOps
+level: Beginner
+summary: The tools every other course assumes you already know — taught properly, in four weeks.
+duration: 4 weeks
+schedule: null
+price: null
+format:
+  - Live online
+  - Recorded lessons
+  - Project work
+language: English
+whoItsFor:
+  - Developers who can code but avoid the terminal
+  - Anyone who has lost work to Git and does not know why
+  - Students about to start a course that assumes these tools
+prerequisites:
+  - Able to write and run a program in any language
+  - No Linux or command-line experience required
+whatYouBuild:
+  - A containerised application you can run anywhere with one command
+  - A repository with a clean history, branches and a recovered mistake
+  - A provisioned Linux server running your application behind Nginx
+requirements:
+  - A laptop running any operating system, with about 10 GB of free disk space
+  - A GitHub account
+syllabus:
+  - label: Week 1
+    title: Linux and the shell
+    points:
+      - Files, permissions, processes and the filesystem layout
+      - Pipes, redirection and the handful of commands that do most of the work
+      - Editing files over SSH, and surviving vim
+  - label: Week 2
+    title: Git as a tool, not a ritual
+    points:
+      - What a commit actually is, which makes the rest obvious
+      - Branching, merging and resolving a conflict without fear
+      - Undoing things — reset, revert, reflog and recovering "lost" work
+  - label: Week 3
+    title: Docker
+    points:
+      - Images, containers, volumes and networks
+      - Writing a Dockerfile that builds small and fast
+      - Compose for an application with a database beside it
+  - label: Week 4
+    title: Putting it on a server
+    points:
+      - Provisioning a Linux server and hardening the basics
+      - Nginx as a reverse proxy, with TLS
+      - Logs, a systemd service, backups and a restore you actually test
+faq:
+  - question: Is four weeks enough?
+    answer: For working competence in all three, yes — these tools are mostly a handful of concepts buried under unfamiliar vocabulary. It is not a systems-administration course.
+  - question: Do I need my own server?
+    answer: A cheap VPS for the final week is useful but optional; we provide a local alternative. We cover what a VPS costs so you can decide.
+  - question: I use Windows. Is that a problem?
+    answer: No. We set up WSL in the first session, and you get a real Linux environment on your own machine.
+instructor: iraguha-jean-aime
+featured: false
+order: 8
+---
+
+Every other course on this site assumes you are comfortable in a terminal, can
+recover from a bad Git state, and can run something in a container. This course
+is for the people who were never taught those and have been working around the
+gap ever since.
+
+It is deliberately short and entirely practical. Four weeks, three tools, and at
+the end an application of yours running on a Linux server you provisioned
+yourself, behind Nginx, with TLS and a backup you have restored once to prove it
+works.
+
+The Git week is the one people tell us changed things. Once you know what a
+commit actually is, the commands stop being a ritual you repeat and start being
+operations you choose.
