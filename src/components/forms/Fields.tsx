@@ -47,7 +47,9 @@ function Label({
       {children}
       {/* Lower case and untracked, so the qualifier does not shout as loudly
           as the label it qualifies. */}
-      {!required && <span className="text-faint ml-1.5 tracking-normal normal-case">optional</span>}
+      {!required && (
+        <span className="text-faint ml-1.5 tracking-normal normal-case">optional</span>
+      )}
     </label>
   );
 }
@@ -211,7 +213,7 @@ export function SelectField({
             // placeholder is always the first option, so matching on it holds
             // the control at placeholder weight until a real choice is made —
             // and, unlike React state, it follows form.reset() for free.
-            'cursor-pointer appearance-none pr-11 [&:has(option:first-child:checked)]:text-faint',
+            '[&:has(option:first-child:checked)]:text-faint cursor-pointer appearance-none pr-11',
           )}
         >
           <option value="" disabled>

@@ -12,7 +12,8 @@
     "type-check": "tsc --noEmit",
     "icons": "node scripts/generate-icons.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "backdrop": "node scripts/generate-code-backdrop.mjs"
   },
   "dependencies": {
     "gray-matter": "4.0.3",

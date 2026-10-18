@@ -50,6 +50,13 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   /**
+   * Hides the floating "N" badge that `next dev` draws in the corner. It was
+   * only ever a development overlay and never shipped in a production build,
+   * but it sits on top of the page while working and gets in the way of
+   * judging the design. Compile and runtime errors are still surfaced.
+   */
+  devIndicators: false,
+  /**
    * Standalone output is only wanted for the Docker image, where it produces a
    * self-contained server with a trimmed node_modules. Vercel does not want it,
    * so it is opt-in via BUILD_STANDALONE=true (set in the Dockerfile).

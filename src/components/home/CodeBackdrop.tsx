@@ -23,21 +23,36 @@ import { cn } from '@/lib/cn';
  *    68px display type.
  *
  * 4. It drifts at 70–110 seconds a loop, which is slow enough to read as
- *    weather rather than as a carousel. Alternate columns run in reverse and
- *    start at a negative delay, so the three are never in step.
+ *    weather rather than as a carousel. The middle column runs in reverse and
+ *    all three start at a negative delay, so they are never in step.
  *
- * The scroll is a pure CSS transform on a doubled block — see
- * `.code-backdrop` in `globals.css`, which also stops it dead under
- * `prefers-reduced-motion`.
+ * 5. Columns are dropped rather than squeezed on narrow screens: a phone gets
+ *    the Python column alone, a laptop two, and only an `xl` viewport has the
+ *    room for three at a width that does not cut the lines off.
+ *
+ * The scroll is a pure CSS transform on a tripled block — see
+ * `.code-backdrop` in `globals.css`, which also caps the layer's height and
+ * stops the motion dead under `prefers-reduced-motion`.
+ *
+ * Rendering it as live text rather than as a generated image is deliberate:
+ * it costs no download, stays sharp at every density without a 2x asset, and
+ * recolours itself from the theme tokens instead of needing one file per
+ * theme. The animation is a single compositor transform per column, so the
+ * main thread does no work once the page has painted.
  */
 
-/** Keep lines under ~56 characters: a column is around 60 at this size. */
-const TYPESCRIPT = `export async function enrol(student: Student) {
-  const seat = await seats.reserve(student.courseId);
+/**
+ * Lines fit the narrowest their column ever gets, which is the viewport at
+ * which that column first appears: 44 characters of 12px mono for the first
+ * column, 46 for the other two. A column clips its overflow, so a line over
+ * that budget would be cut mid-identifier rather than wrapped.
+ */
+const TYPESCRIPT = `async function enrol(student: Student) {
+  const seat = await seats.reserve(course);
   if (!seat) {
-    return { ok: false, reason: 'intake full' };
+    return { ok: false, reason: 'full' };
   }
-  await mail.send('enrolment-confirmed', student);
+  await mail.send('enrolled', student.id);
   return { ok: true, seat };
 }
 
@@ -47,9 +62,10 @@ type Invoice = {
   paidAt: Date | null;
 };
 
-export function settle(invoice: Invoice) {
+function settle(invoice: Invoice) {
   if (invoice.paidAt) return invoice;
-  ledger.post(invoice.id, invoice.amountRwf);
+  const { amountRwf } = invoice;
+  ledger.post(invoice.id, amountRwf);
   return { ...invoice, paidAt: new Date() };
 }
 
@@ -105,8 +121,8 @@ class Roster:
 # 0.3s a frame on the classroom Pi`;
 
 const COLUMNS = [
-  { source: TYPESCRIPT, seconds: 92, reverse: false, delay: -31, hidden: 'hidden lg:block' },
-  { source: FIRMWARE, seconds: 110, reverse: true, delay: -58, hidden: 'hidden md:block' },
+  { source: TYPESCRIPT, seconds: 92, reverse: false, delay: -31, hidden: 'hidden xl:block' },
+  { source: FIRMWARE, seconds: 110, reverse: true, delay: -58, hidden: 'hidden lg:block' },
   { source: PYTHON, seconds: 74, reverse: false, delay: -12, hidden: '' },
 ] as const;
 
@@ -154,9 +170,10 @@ function highlight(line: string): ReactNode[] {
 }
 
 /**
- * One pass of a column's source. Rendered twice inside the scroller: the
- * animation travels exactly -50%, so the second copy lands where the first
- * began and the loop has no seam.
+ * One pass of a column's source. Rendered three times inside the scroller:
+ * the animation travels `calc(-100% / 3)`, which is exactly one copy, so the
+ * second lands where the first began and the loop has no seam. The third is
+ * what keeps the bottom of the column filled at the end of a cycle.
  */
 function Block({ source }: { source: string }) {
   return (
@@ -184,6 +201,7 @@ export function CodeBackdrop() {
               animationDirection: column.reverse ? 'reverse' : 'normal',
             }}
           >
+            <Block source={column.source} />
             <Block source={column.source} />
             <Block source={column.source} />
           </div>

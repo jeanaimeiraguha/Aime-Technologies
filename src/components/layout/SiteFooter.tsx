@@ -54,12 +54,17 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        <div className="border-hairline text-meta text-faint mt-14 flex flex-col gap-3 border-t pt-6 font-mono sm:flex-row sm:items-center sm:justify-between">
+        {/*
+          The "Built in Rwanda 🇷🇼" line was removed. The flag is a pair of
+          regional-indicator characters, and Windows ships no glyph for them —
+          it renders as the bare letters "RW", so the line read as broken on a
+          large share of visitors' machines. The location is already stated
+          plainly above, in the address.
+        */}
+        <div className="border-hairline text-meta text-faint mt-14 border-t pt-6 font-mono">
           <p>
             © {year} {site.name}
           </p>
-          {/* The one emoji on the site. */}
-          <p>Built in Rwanda 🇷🇼</p>
         </div>
       </Container>
     </footer>
