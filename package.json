@@ -2,7 +2,7 @@
   "name": "totally-ink",
   "version": "0.1.0",
   "private": true,
-  "description": "Totally Ink — web, mobile, AI, cloud, data, security and embedded engineering. Bugesera, Kigali, Rwanda.",
+  "description": "Totally Ink — web, mobile, AI, cloud, data, security and embedded engineering. Kigali, Rwanda.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -80,7 +80,7 @@ export const faqGroups: FaqGroup[] = [
       {
         question: 'Are the live classes online or in person?',
         answer:
-          'Live classes run online. In-person and hybrid sessions in the Bugesera and Kigali area are planned.',
+          'Live classes run online. In-person and hybrid sessions in the Kigali area are planned.',
         todo: 'Confirm the live-class platform (Google Meet, Zoom, other) and whether in-person or hybrid sessions are available now.',
       },
       {

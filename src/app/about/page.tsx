@@ -17,7 +17,7 @@ import { pageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = pageMetadata({
   title: 'About',
-  description: `${site.name} is a technology company in Bugesera, Kigali, Rwanda, founded by ${founder.name}. We build software, school ERP and EdTech platforms, embedded systems and IoT, and teach engineering through our Academy.`,
+  description: `${site.name} is a technology company in Kigali, Rwanda, founded by ${founder.name}. We build software, school ERP and EdTech platforms, embedded systems and IoT, and teach engineering through our Academy.`,
   path: '/about',
 });
 

@@ -1,8 +1,7 @@
 # Totally Ink — website
 
 Marketing and academy site for Totally Ink: web, mobile, AI, cloud, data,
-security and embedded engineering, and the training academy. Bugesera, Kigali,
-Rwanda.
+security and embedded engineering, and the training academy. Kigali, Rwanda.
 
 Next.js (App Router) · TypeScript · Tailwind CSS v4 · MDX content · fully static.
 
@@ -463,10 +462,9 @@ launch.
       A Gmail address on a company site reads less established, and the domain
       mailbox costs nothing once the domain is registered.
 - [ ] Street / sector line for the address
-- [ ] **Confirm the location wording.** The brief says "Bugesera, Kigali" —
-      Bugesera is a district in the Eastern Province and Kigali is the capital.
-      Decide which is correct and make `site.location` and the `PostalAddress`
-      JSON-LD agree.
+- [x] Location wording — confirmed as **Kigali** (was "Bugesera, Kigali").
+      `site.location`, the page metadata and the `PostalAddress` JSON-LD all
+      read Kigali now.
 - [ ] Latitude and longitude, plus a maps link, for `LocalBusiness` data
 - [ ] Year the company was founded (currently `2024`)
 - [ ] Social profiles — the footer shows a TODO marker until at least one exists
@@ -488,7 +486,7 @@ launch.
 - [ ] **blocker** Payment details — mobile money number and registered name,
       bank account, whether card is accepted. Shown after an enrolment request.
 - [ ] Confirm the live-class platform (Google Meet, Zoom, other)
-- [ ] Confirm whether in-person or hybrid sessions in Bugesera/Kigali run now
+- [ ] Confirm whether in-person or hybrid sessions in Kigali run now
 - [ ] Decide what is issued on completion — do not claim accreditation the
       Academy does not hold
 - [ ] Instalment policy

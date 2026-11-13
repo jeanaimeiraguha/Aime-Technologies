@@ -22,22 +22,22 @@ export const site = {
   tagline: 'Turning ideas into real products, and real problems into working solutions.',
   motto: "Build it. Test it. Break it. Fix it. Ship it. That's the game.",
   description:
-    'Totally Ink delivers web and mobile development, AI and machine learning, embedded systems and IoT, cloud, data, security and automation, and teaches engineering through the Totally Ink Academy. Based in Bugesera, Kigali, Rwanda.',
+    'Totally Ink delivers web and mobile development, AI and machine learning, embedded systems and IoT, cloud, data, security and automation, and teaches engineering through the Totally Ink Academy. Based in Kigali, Rwanda.',
 
   founded: 2024, // TODO: confirm the year the company started operating.
 
   location: {
     /** Short form, used in the hero mono line and the footer. Confirmed. */
-    short: 'Bugesera, Kigali, Rwanda',
+    short: 'Kigali, Rwanda',
     /**
-     * Deliberately none. The location is given at district level and that is
+     * Deliberately none. The location is given at city level and that is
      * the whole address — it is not a missing value. Setting a street here
      * makes it appear in the footer, on /contact and in the LocalBusiness
      * structured data.
      */
     street: null as Pending<string>,
     sector: null as Pending<string>,
-    district: 'Bugesera',
+    district: 'Kigali',
     city: 'Kigali',
     country: 'Rwanda',
     countryCode: 'RW',

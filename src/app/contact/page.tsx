@@ -14,7 +14,7 @@ import { pageMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = pageMetadata({
   title: 'Contact',
-  description: `Talk to ${site.name} about a project, a quote, course enrolment, training for a school or company, or a partnership. Based in Bugesera, Kigali, Rwanda, working on site and remotely.`,
+  description: `Talk to ${site.name} about a project, a quote, course enrolment, training for a school or company, or a partnership. Based in Kigali, Rwanda, working on site and remotely.`,
   path: '/contact',
 });
 

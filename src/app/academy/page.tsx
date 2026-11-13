@@ -45,7 +45,7 @@ const FORMATS = [
   },
   {
     name: 'In person & hybrid',
-    note: 'Sessions in the Bugesera and Kigali area are planned — confirm availability before enrolling on that basis.',
+    note: 'Sessions in the Kigali area are planned — confirm availability before enrolling on that basis.',
   },
   {
     name: 'Training for schools & companies',
