@@ -33,7 +33,7 @@ export default function HomePage() {
       <Section
         id="services"
         label="02 — Services"
-        title="Eleven things we do, and what each one actually involves."
+        title="Eighteen things we do, and what each one actually involves."
         action={{ label: 'All services', href: '/services' }}
         className="mt-20 md:mt-28"
       >

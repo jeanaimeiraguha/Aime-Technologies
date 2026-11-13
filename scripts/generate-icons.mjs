@@ -1,5 +1,5 @@
 /**
- * Rasterises the "AT" monogram in src/app/icon.svg into the PNG sizes that
+ * Rasterises the "TI" monogram in src/app/icon.svg into the PNG sizes that
  * browsers and the web manifest need.
  *
  * Run with `npm run icons` after editing the SVG. The outputs are committed, so

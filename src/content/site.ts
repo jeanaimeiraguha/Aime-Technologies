@@ -15,14 +15,14 @@ export interface SocialLink {
 }
 
 export const site = {
-  name: 'Aime Technologies',
-  shortName: 'Aime Tech',
-  /** Used in the "AT" monogram favicon and manifest. */
-  monogram: 'AT',
+  name: 'Totally Ink',
+  shortName: 'Totally Ink',
+  /** Used in the "TI" monogram favicon and manifest. */
+  monogram: 'TI',
   tagline: 'Turning ideas into real products, and real problems into working solutions.',
   motto: "Build it. Test it. Break it. Fix it. Ship it. That's the game.",
   description:
-    'Aime Technologies builds software, school ERP and EdTech platforms, embedded systems and IoT devices, and teaches engineering through the Aime Technologies Academy. Based in Bugesera, Kigali, Rwanda.',
+    'Totally Ink delivers web and mobile development, AI and machine learning, embedded systems and IoT, cloud, data, security and automation, and teaches engineering through the Totally Ink Academy. Based in Bugesera, Kigali, Rwanda.',
 
   founded: 2024, // TODO: confirm the year the company started operating.
 
@@ -49,8 +49,8 @@ export const site = {
 
   contact: {
     /**
-     * TODO (optional): a domain address such as hello@aimetechnologies.rw reads
-     * more established on a company site than a personal Gmail one, and costs
+     * TODO (optional): a domain address such as hello@totallyink... reads more
+     * established on a company site than a personal Gmail one, and costs
      * nothing once the domain is registered. Not blocking — this address works.
      */
     email: 'jeanaimeiraguha@gmail.com' as Pending<string>,
@@ -101,12 +101,13 @@ export const site = {
 } as const;
 
 /**
- * Canonical origin. Set NEXT_PUBLIC_SITE_URL in the environment; the fallback
- * only exists so `next build` works before a domain is configured.
+ * Canonical origin. Set NEXT_PUBLIC_SITE_URL in the environment to override;
+ * the fallback below is the confirmed domain, used when it is unset.
  */
-export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://aimetechnologies.rw'
-).replace(/\/$/, '');
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://totallyink.rw').replace(
+  /\/$/,
+  '',
+);
 
 export function absoluteUrl(path = '/'): string {
   return `${siteUrl}${path.startsWith('/') ? path : `/${path}`}`;

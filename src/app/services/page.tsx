@@ -12,7 +12,7 @@ import { pageMetadata } from '@/lib/metadata';
 export const metadata: Metadata = pageMetadata({
   title: 'Services',
   description:
-    'Software development, school ERP and EdTech platforms, e-learning and automated grading, attendance systems, AI/ML and computer vision, embedded systems and IoT, business automation, digital payments, consulting and DevOps.',
+    'Eighteen service lines from Totally Ink: web development, AI and machine learning, embedded systems and IoT, mobile apps, cloud, database design, UI/UX, DevOps and CI/CD, cybersecurity, IT consulting, software engineering, APIs, robotics, data science, blockchain, network engineering, system architecture and business process automation.',
   path: '/services',
 });
 
@@ -29,7 +29,7 @@ export default function ServicesPage() {
     <>
       <PageHeader
         label="Services"
-        title="Eleven things we do, and what each one actually involves."
+        title="Eighteen things we do, and what each one actually involves."
         lead={
           <p>
             We work across software, hardware and the systems in between. Every line below has

@@ -1,7 +1,8 @@
-# Aime Technologies — website
+# Totally Ink — website
 
-Marketing and academy site for Aime Technologies: software engineering, embedded
-systems and IoT, and the training academy. Bugesera, Kigali, Rwanda.
+Marketing and academy site for Totally Ink: web, mobile, AI, cloud, data,
+security and embedded engineering, and the training academy. Bugesera, Kigali,
+Rwanda.
 
 Next.js (App Router) · TypeScript · Tailwind CSS v4 · MDX content · fully static.
 
@@ -64,14 +65,14 @@ src/
 │   ├── layout.tsx            Fonts, theme script, header/footer, global JSON-LD
 │   ├── page.tsx              Home — the eight numbered sections
 │   ├── globals.css           Design tokens, both themes, base layer, .prose
-│   ├── icon.svg              "AT" monogram — source for the whole icon set
+│   ├── icon.svg              "TI" monogram — source for the whole icon set
 │   ├── opengraph-image.tsx   Generated OG card (per-route versions alongside)
 │   ├── sitemap.ts robots.ts manifest.ts
 │   └── services|academy|work|about|contact|faq|privacy|terms/
 │
 ├── content/                  ← ALL copy lives here. Components never author text.
 │   ├── site.ts               Brand, contacts, socials, navigation
-│   ├── services.ts           The 11 service lines
+│   ├── services.ts           The 18 service lines
 │   ├── courses/*.mdx         One file per course
 │   ├── work/*.mdx            One file per case study
 │   ├── team.ts               Founder, values
@@ -415,12 +416,12 @@ The `Dockerfile` produces a standalone Next.js server (~200 MB image, trimmed
 
 ```bash
 docker build \
-  --build-arg NEXT_PUBLIC_SITE_URL=https://aimetechnologies.rw \
+  --build-arg NEXT_PUBLIC_SITE_URL=https://totallyink.rw \
   --build-arg NEXT_PUBLIC_CONTACT_ENDPOINT=https://formspree.io/f/xxxx \
   --build-arg NEXT_PUBLIC_ENROLL_ENDPOINT=https://formspree.io/f/yyyy \
-  -t aime-technologies .
+  -t totally-ink .
 
-docker run -d --name aime --restart unless-stopped -p 127.0.0.1:3000:3000 aime-technologies
+docker run -d --name totally-ink --restart unless-stopped -p 127.0.0.1:3000:3000 totally-ink
 ```
 
 Binding to `127.0.0.1` keeps the app off the public interface — Nginx is the
@@ -429,16 +430,16 @@ only way in.
 Then put Nginx in front:
 
 ```bash
-sudo cp nginx.conf /etc/nginx/sites-available/aimetechnologies.rw
-sudo ln -s /etc/nginx/sites-available/aimetechnologies.rw /etc/nginx/sites-enabled/
+sudo cp nginx.conf /etc/nginx/sites-available/totallyink.rw
+sudo ln -s /etc/nginx/sites-available/totallyink.rw /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
-sudo certbot --nginx -d aimetechnologies.rw -d www.aimetechnologies.rw
+sudo certbot --nginx -d totallyink.rw -d www.totallyink.rw
 ```
 
 `nginx.conf` handles TLS, the www redirect, gzip, and long-lived caching for
 `/_next/static`. Certbot rewrites the certificate paths in place.
 
-To update: rebuild the image, then `docker stop aime && docker rm aime` and run
+To update: rebuild the image, then `docker stop totally-ink && docker rm totally-ink` and run
 again. For zero-downtime, start the new container on another port and switch the
 `upstream` in `nginx.conf`.
 
@@ -458,7 +459,7 @@ launch.
 - [x] WhatsApp number — **assumed to be the same line as the phone number.**
       Correct `site.contact.whatsapp` if it is a different number, or set it to
       `null` to hide every click-to-chat link.
-- [ ] Optional: move email to a domain address (`hello@aimetechnologies.rw`).
+- [ ] Optional: move email to a domain address (`hello@totallyink.rw`).
       A Gmail address on a company site reads less established, and the domain
       mailbox costs nothing once the domain is registered.
 - [ ] Street / sector line for the address

@@ -1,7 +1,7 @@
 import { getAllCourses, getCourse } from '@/lib/content/courses';
 import { OG_CONTENT_TYPE, OG_SIZE, renderOgImage } from '@/lib/og';
 
-export const alt = 'Aime Technologies Academy course';
+export const alt = 'Totally Ink Academy course';
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 

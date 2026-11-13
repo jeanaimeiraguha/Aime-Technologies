@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1
 
 # ---------------------------------------------------------------------------
-# Aime Technologies — production image
+# Totally Ink — production image
 #
 # Multi-stage build producing a Next.js standalone server. The final image
 # carries only the compiled server, the static assets and a minimal Node
 # runtime; node_modules and the source tree are left behind in the builder.
 #
-#   docker build -t aime-technologies --build-arg NEXT_PUBLIC_SITE_URL=https://aimetechnologies.rw .
-#   docker run -p 3000:3000 aime-technologies
+#   docker build -t totally-ink --build-arg NEXT_PUBLIC_SITE_URL=https://totallyink.rw .
+#   docker run -p 3000:3000 totally-ink
 #
 # NEXT_PUBLIC_* values are inlined into the client bundle at BUILD time, so they
 # are build args, not runtime env vars. Changing one means rebuilding the image.
@@ -30,7 +30,7 @@ RUN npm ci
 # --- build -----------------------------------------------------------------
 FROM base AS builder
 
-ARG NEXT_PUBLIC_SITE_URL=https://aimetechnologies.rw
+ARG NEXT_PUBLIC_SITE_URL=https://totallyink.rw
 ARG NEXT_PUBLIC_CONTACT_ENDPOINT=
 ARG NEXT_PUBLIC_ENROLL_ENDPOINT=
 

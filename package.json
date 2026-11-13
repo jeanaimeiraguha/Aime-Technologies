@@ -1,8 +1,8 @@
 {
-  "name": "aime-technologies",
+  "name": "totally-ink",
   "version": "0.1.0",
   "private": true,
-  "description": "Aime Technologies — software engineering, embedded systems and training academy. Bugesera, Kigali, Rwanda.",
+  "description": "Totally Ink — web, mobile, AI, cloud, data, security and embedded engineering. Bugesera, Kigali, Rwanda.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

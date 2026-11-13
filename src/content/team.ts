@@ -20,7 +20,7 @@ export const founder: TeamMember = {
   name: 'IRAGUHA Jean Aime',
   role: 'CTO, Software Engineer & Technology Builder',
   bio: [
-    'I started Aime Technologies because there are problems here worth solving, and not enough people building for them properly.',
+    'I started Totally Ink because there are problems here worth solving, and not enough people building for them properly.',
     'I work across the whole stack — architecture, backend logic, interfaces, security, performance, integrations, testing and deployment — and I spend a lot of my time on education platforms and school management systems, where the engineering is unglamorous and the details decide whether a school can actually use the thing.',
     'I also build with hardware: microcontroller firmware, sensors, and the dashboards that make their readings useful. Embedded work keeps you honest. The device either runs for months unattended or it does not.',
     'I learn by doing. New technology, I explore it. Difficult bug, I hunt it down. Complex system, I break it into pieces and build it properly. I teach the same way, which is why the Academy is built around projects rather than lectures.',

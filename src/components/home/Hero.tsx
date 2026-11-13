@@ -38,7 +38,7 @@ const WHAT_WE_DO = [
     label: 'Support',
     title: 'Consulting & DevOps',
     body: 'Architecture review before the budget is committed. Then Docker, Linux, backups that have been restored at least once, and monitoring.',
-    href: '/services/deployment-devops-support',
+    href: '/services/it-consulting-support',
     linkText: 'How we support',
   },
 ];

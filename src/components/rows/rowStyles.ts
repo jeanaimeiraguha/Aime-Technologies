@@ -19,7 +19,7 @@ export const ROW_INDEX = 'font-mono text-meta text-faint group-hover:text-accent
  * Row titles are real headings, so they inherit 600 from the base layer — the
  * previous `font-normal` was cancelling that. They stay at body size on
  * purpose: weight and the ink/muted split separate the title from its summary,
- * which keeps the scale at five sizes and keeps dense lists of eleven rows
+ * which keeps the scale at five sizes and keeps dense lists of eighteen rows
  * readable.
  */
 export const ROW_TITLE = 'text-ink leading-snug';

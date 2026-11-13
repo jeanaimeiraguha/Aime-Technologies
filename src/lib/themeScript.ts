@@ -14,7 +14,7 @@
  * every page load, and anything slow here is felt as a blank screen.
  */
 
-export const THEME_STORAGE_KEY = 'at-theme';
+export const THEME_STORAGE_KEY = 'ti-theme';
 
 // prettier-ignore
-export const THEME_SCRIPT = 'try{var t=localStorage.getItem("at-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}';
+export const THEME_SCRIPT = 'try{var t=localStorage.getItem("ti-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}';
