@@ -28,7 +28,7 @@ Node 20.9 or newer.
 | `npm run type-check`   | `tsc --noEmit`                                      |
 | `npm run format`       | Prettier, writes in place                           |
 | `npm run format:check` | Prettier, check only — use in CI                    |
-| `npm run icons`        | Regenerate the PNG icon set from `src/app/icon.svg` |
+| `npm run icons`        | Regenerate the PNG icon set from `public/Totally Ink.png` |
 
 All four gates (`lint`, `type-check`, `format:check`, `build`) pass with zero
 errors and zero warnings.
@@ -64,7 +64,7 @@ src/
 │   ├── layout.tsx            Fonts, theme script, header/footer, global JSON-LD
 │   ├── page.tsx              Home — the eight numbered sections
 │   ├── globals.css           Design tokens, both themes, base layer, .prose
-│   ├── icon.svg              "TI" monogram — source for the whole icon set
+│   ├── icon.png               Favicon — the company logo, source for the icon set
 │   ├── opengraph-image.tsx   Generated OG card (per-route versions alongside)
 │   ├── sitemap.ts robots.ts manifest.ts
 │   └── services|academy|work|about|contact|faq|privacy|terms/
@@ -540,5 +540,5 @@ All five are marked `placeholder: true`. For each one:
 
 - [ ] Load Instrument Sans into `src/lib/og.tsx` so OG cards use the brand font
 - [ ] Add a real testimonial once one exists, with permission
-- [ ] Consider a `favicon.ico` for very old browsers — the SVG and PNG set
+- [ ] Consider a `favicon.ico` for very old browsers — the PNG set
       covers everything current

@@ -1,94 +1,64 @@
-import { CodeBackdrop } from '@/components/home/CodeBackdrop';
-import { LocalTime } from '@/components/home/LocalTime';
+import { ArrowDown } from 'lucide-react';
+
+import { AfricaRobotMap } from '@/components/home/AfricaRobotMap';
+import { HeroSlider } from '@/components/home/HeroSlider';
 import { Container } from '@/components/ui/Container';
-import { SectionLabel } from '@/components/ui/SectionLabel';
-import { TextLink } from '@/components/ui/TextLink';
-import { site } from '@/content/site';
 
 /**
- * The top of the page: headline, tagline, and the three things the company
- * actually does, as one composition rather than two stacked sections.
- *
- * They were separate before — hero, then a "01 — What we do" section with the
- * same label/title/content shape as every other section on the page. Folding
- * the trio in gives the page one substantial opening instead of two
- * interchangeable ones, and means the first hairline a visitor meets is doing
- * real work: separating the claim from the evidence for it.
- *
- * The headline is one colour. An accent-coloured closing clause was tried and
- * removed — it is the stock "highlight the last three words" move, and on a
- * site whose whole argument is restraint it read as decoration.
+ * Light marketing hero (web3mates shape): soft brand-tinted plate, the
+ * Africa-and-robot graphic as the background piece, two slow orbs, the
+ * headline carousel, and a scroll cue. Impact numbers live in StatsRow.
  */
-const WHAT_WE_DO = [
-  {
-    label: 'Build',
-    title: 'Software & embedded systems',
-    body: 'Web and mobile applications, school ERP and EdTech platforms, payment systems, and firmware for devices that run unattended for months.',
-    href: '/services',
-    linkText: 'What we build',
-  },
-  {
-    label: 'Teach',
-    title: 'Academy & training',
-    body: 'Nine courses in software engineering, embedded systems, IoT and AI/ML — taught by building projects you keep. Also run for schools and companies.',
-    href: '/academy',
-    linkText: 'Browse courses',
-  },
-  {
-    label: 'Support',
-    title: 'Consulting & DevOps',
-    body: 'Architecture review before the budget is committed. Then Docker, Linux, backups that have been restored at least once, and monitoring.',
-    href: '/services/it-consulting-support',
-    linkText: 'How we support',
-  },
-];
-
 export function Hero() {
   return (
-    // `isolate` keeps the backdrop's negative z-index inside the hero, and
-    // `overflow-hidden` is what clips the scrolling columns to this section.
-    <section className="relative isolate overflow-hidden pt-14 md:pt-20">
-      <CodeBackdrop />
+    <section
+      className="hero-plate relative isolate overflow-hidden"
+      style={{ background: 'var(--hero-plate)' }}
+    >
+      {/* Texture layer 1 — the dot grid. */}
+      <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden="true" />
 
-      <Container>
-        <p className="text-meta text-muted font-mono tracking-[0.04em]">
-          {site.location.short}
-          <span aria-hidden="true"> · </span>
-          <LocalTime />
-        </p>
+      {/* Background graphic — full Africa map + robot, right side, never clipped. */}
+      <div className="africa-map-wrap pointer-events-none absolute inset-0" aria-hidden="true">
+        <AfricaRobotMap />
+      </div>
 
-        <h1 className="text-hero mt-7 max-w-[26ch]">
-          We build software, embedded systems, and the people who build them.
-        </h1>
+      {/* Depth — two slow orbs, deliberately off-centre. */}
+      <div
+        className="hero-orb -top-32 -left-24 h-[420px] w-[420px]"
+        style={{
+          background: 'radial-gradient(circle, rgba(90,169,221,0.35), transparent 65%)',
+        }}
+        aria-hidden="true"
+      />
+      <div
+        className="hero-orb top-1/3 -right-24 h-[380px] w-[380px]"
+        style={{
+          background: 'radial-gradient(circle, rgba(5,65,99,0.22), transparent 68%)',
+          animationDelay: '-7s',
+        }}
+        aria-hidden="true"
+      />
 
-        <p className="text-lead mt-8 max-w-[52ch] font-medium text-balance">{site.tagline}</p>
+      {/* Soft fade only under the copy column — map stays fully visible. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-32 md:w-1/2"
+        style={{ background: 'linear-gradient(to top, var(--hero-fade), transparent)' }}
+        aria-hidden="true"
+      />
 
-        <p className="mt-9 flex flex-wrap gap-x-8 gap-y-3">
-          <TextLink href="/services">Our services</TextLink>
-          <TextLink href="/academy">Browse courses</TextLink>
-        </p>
+      <Container className="hero-copy relative z-10">
+        <HeroSlider />
 
-        <div className="border-hairline mt-16 border-t pt-10 md:mt-20 md:pt-12">
-          <SectionLabel className="mb-8">01 — What we do</SectionLabel>
-          <h2 className="sr-only">What we do</h2>
-
-          <div className="grid gap-x-10 gap-y-10 md:grid-cols-3">
-            {WHAT_WE_DO.map((column) => (
-              <div key={column.label}>
-                <h3 className="text-meta text-accent font-mono tracking-[0.1em] uppercase">
-                  {column.label}
-                </h3>
-                <p className="mt-3 font-medium">{column.title}</p>
-                <p className="text-muted mt-2 max-w-[42ch]">{column.body}</p>
-                <p className="mt-4">
-                  <TextLink href={column.href} className="text-meta">
-                    {column.linkText}
-                  </TextLink>
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <a
+          href="#services"
+          className="scroll-cue text-faint mt-16 inline-flex items-center gap-3 text-[0.8125rem] font-semibold tracking-[0.16em] uppercase"
+        >
+          <span className="border-hairline-strong flex h-10 w-10 items-center justify-center rounded-full border">
+            <ArrowDown size={16} aria-hidden="true" />
+          </span>
+          Scroll
+        </a>
       </Container>
     </section>
   );

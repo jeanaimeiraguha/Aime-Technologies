@@ -12,13 +12,6 @@ const GLYPH: Record<Arrow, string> = {
   none: '',
 };
 
-/**
- * The site's primary link style: a real underline with offset, accent on hover,
- * and an arrow as a text glyph rather than an icon.
- *
- * The glyph is wrapped in its own span with a non-breaking space before it, so
- * the arrow never wraps onto a line of its own.
- */
 export function TextLink({
   href,
   children,
@@ -38,9 +31,7 @@ export function TextLink({
   const resolvedArrow: Arrow = arrow === 'right' && isExternal ? 'external' : arrow;
 
   const classes = cn(
-    // `tap` grows the hit area on touch devices only — see globals.css.
-    'tap text-ink underline decoration-hairline-strong decoration-1 underline-offset-[5px]',
-    'hover:text-accent hover:decoration-accent focus-visible:text-accent',
+    'tap text-accent decoration-accent/40 hover:decoration-accent underline underline-offset-[5px] decoration-1 transition-all duration-300',
     className,
   );
 
@@ -49,7 +40,7 @@ export function TextLink({
       {children}
       {resolvedArrow !== 'none' && (
         <span aria-hidden="true" className="whitespace-nowrap">
-          {' '}
+          {' '}
           {GLYPH[resolvedArrow]}
         </span>
       )}

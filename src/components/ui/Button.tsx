@@ -5,25 +5,6 @@ import { cn } from '@/lib/cn';
 
 type Variant = 'primary' | 'outline';
 
-const BASE =
-  'inline-flex items-center justify-center gap-2 rounded-xs border px-4 py-2.5 ' +
-  'font-mono text-meta tracking-[0.04em] uppercase whitespace-nowrap ' +
-  'disabled:cursor-not-allowed disabled:opacity-50';
-
-const VARIANTS: Record<Variant, string> = {
-  // Solid text-colour background, inverted label. No pills, no gradients.
-  primary:
-    'border-ink bg-ink text-paper hover:border-accent hover:bg-accent hover:text-paper ' +
-    'disabled:hover:border-ink disabled:hover:bg-ink',
-  outline:
-    'border-hairline-strong bg-transparent text-ink hover:border-ink hover:bg-ink hover:text-paper ' +
-    'disabled:hover:border-hairline-strong disabled:hover:bg-transparent disabled:hover:text-ink',
-};
-
-function classesFor(variant: Variant, className?: string) {
-  return cn(BASE, VARIANTS[variant], className);
-}
-
 export function Button({
   variant = 'primary',
   className,
@@ -31,7 +12,10 @@ export function Button({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   return (
-    <button className={classesFor(variant, className)} {...props}>
+    <button
+      className={cn(variant === 'primary' ? 'btn-primary' : 'btn-outline', className)}
+      {...props}
+    >
       {children}
     </button>
   );
@@ -51,12 +35,13 @@ export function ButtonLink({
   external?: boolean;
 }) {
   const isExternal = external ?? /^(https?:|mailto:|tel:)/.test(href);
+  const cls = cn(variant === 'primary' ? 'btn-primary' : 'btn-outline', className);
 
   if (isExternal) {
     return (
       <a
         href={href}
-        className={classesFor(variant, className)}
+        className={cls}
         {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       >
         {children}
@@ -65,7 +50,7 @@ export function ButtonLink({
   }
 
   return (
-    <Link href={href} className={classesFor(variant, className)}>
+    <Link href={href} className={cls}>
       {children}
     </Link>
   );

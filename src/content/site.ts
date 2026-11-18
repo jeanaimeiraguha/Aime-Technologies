@@ -17,7 +17,7 @@ export interface SocialLink {
 export const site = {
   name: 'Totally Ink',
   shortName: 'Totally Ink',
-  /** Used in the "TI" monogram favicon and manifest. */
+  /** Text monogram. The favicon and icon set are generated from the logo. */
   monogram: 'TI',
   tagline: 'Turning ideas into real products, and real problems into working solutions.',
   motto: "Build it. Test it. Break it. Fix it. Ship it. That's the game.",
@@ -99,6 +99,16 @@ export const site = {
     'Remote Collaboration',
   ],
 } as const;
+
+/**
+ * Homepage promo strip above the header. Set to `null` to remove it.
+ * TODO: swap the copy when the intake or campaign changes.
+ */
+export const announcement: { text: string; cta: string; href: string } | null = {
+  text: 'New academy intake — limited seats for the next cohort',
+  cta: 'View courses',
+  href: '/academy',
+};
 
 /**
  * Canonical origin. Set NEXT_PUBLIC_SITE_URL in the environment to override;

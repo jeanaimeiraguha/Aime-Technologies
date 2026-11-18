@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Instrument_Sans, JetBrains_Mono } from 'next/font/google';
+import { Kumbh_Sans, JetBrains_Mono } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import '@/app/globals.css';
@@ -24,19 +24,13 @@ import { rootMetadata } from '@/lib/metadata';
  * `adjustFontFallback` (on by default) matches the fallback metrics, which is
  * why the swap costs no layout shift: CLS measures 0.001.
  */
-const sans = Instrument_Sans({
+const sans = Kumbh_Sans({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-instrument-sans',
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-kumbh',
 });
 
-/**
- * The mono face is deliberately not preloaded. Preloading both families puts
- * ~71 KB of woff2 on the critical path and delays the hero headline, which is
- * the LCP element on every page. Mono is only ever used for small secondary
- * text — labels, metadata, course codes — so it loads a moment later and swaps
- * in, which costs nothing anyone will notice and measurably improves LCP.
- */
 const mono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
@@ -51,8 +45,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   // Both themes are declared so the browser chrome matches the resolved theme.
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f5f3ee' },
-    { media: '(prefers-color-scheme: dark)', color: '#0b0b0c' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#151327' },
   ],
 };
 

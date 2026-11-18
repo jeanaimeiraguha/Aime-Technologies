@@ -2,111 +2,994 @@
 
 /* ===========================================================================
    Totally Ink — design tokens
-   Editorial, typography-led. Two themes, one accent hue.
-
-   The accent is defined per theme rather than once: a single orange cannot
-   clear WCAG AA against both #0B0B0C and #F5F3EE, so dark uses the brighter
-   signal orange and light uses a darker cut of the same hue.
-
-   Measured contrast (text on background), all clearing AA for normal text:
-     dark   text 16.5:1 · muted 5.7:1 · faint 4.7:1 · accent 5.2:1
-     light  text 17.2:1 · muted 5.8:1 · faint 4.9:1 · accent 5.2:1
-
-   `faint` is the quietest token and is used at 13px, so it is held to 4.5:1
-   rather than the 3:1 large-text threshold. It is checked against the sunken
-   surface as well as the page background, which is the tighter of the two.
+   Light-first (web3mates-style marketing look): white paper, #054163 brand.
+   Dark remains available via system preference or the theme toggle.
    =========================================================================== */
 
 :root {
   color-scheme: light;
 
-  --paper: #f5f3ee;
-  --surface: #ffffff;
-  --surface-sunken: #efece5;
-  --ink: #111113;
-  --ink-muted: #5e5e63;
-  /* 4.9:1 on paper, 4.7:1 on the sunken surface — mono meta is 13px, so it
-     must clear 4.5:1 as normal-size text, not the 3:1 large-text threshold. */
-  --ink-faint: #6b6964;
-  --hairline: #dad7cf;
-  --hairline-strong: #c4c0b5;
-  --accent: #b0420e;
-  --accent-hover: #8e350b;
-  --accent-wash: rgb(176 66 14 / 0.07);
-  /*
-   * Strength of the hero code backdrop, which is decorative and sits well
-   * below reading contrast. These land the code around 2.2:1 against the
-   * page in both themes — visible as texture, nowhere near the 17:1 the
-   * headline in front of it carries. The first pass used 0.2/0.26, which
-   * measured 1.3:1 and could not be seen at all on paper.
-   */
-  --code-veil: 0.26;
+  --primary-color: #054163;
+  --gradient-bg: #054163;
+  --main-bg: #ffffff;
+  --sub-bg: #f3f7fb;
+  --heading-color: #0f0d1d;
+  --paragraph: #585858;
+  --border: #e3e3e3;
+  --white: #ffffff;
+  --shadow: 0px 4px 25px 0px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease-in-out;
+
+  --paper: #ffffff;
+  --surface: #f3f7fb;
+  --surface-sunken: #eef2f8;
+  --surface-card: #ffffff;
+  --ink: #0f0d1d;
+  --ink-muted: #585858;
+  --ink-faint: #888888;
+  --hairline: #e3e3e3;
+  --hairline-strong: #cccccc;
+  --accent: #054163;
+  --accent-hover: #043352;
+  --accent-wash: rgba(5, 65, 99, 0.08);
+
+  --card-bg: #ffffff;
+  --card-border: #e3e3e3;
+  --card-shadow: 0 12px 30px rgba(15, 13, 29, 0.08);
+  --card-shadow-hover: 0 22px 48px rgba(15, 13, 29, 0.14);
+  --label-color: #054163;
+
+  /* Hero accent on the light plate — needs contrast on near-white. */
+  --hero-accent: #0277a9;
+  --hero-plate: linear-gradient(105deg, #ffffff -20%, #eaf5fc 48%, #d2ecf9 115%);
+  --hero-fade: #ffffff;
+
+  /* Syntax colours tuned for the light hero backdrop. */
+  --code-fg: rgba(20, 50, 75, 0.72);
+  --code-keyword: #054163;
+  --code-string: #0a7a54;
+  --code-number: #b45309;
+  --code-comment: rgba(15, 13, 29, 0.4);
+
+  --header-solid: rgba(255, 255, 255, 0.86);
+  --progress-from: #054163;
+  --progress-to: #5aa9dd;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-
-    --paper: #0b0b0c;
-    --surface: #141416;
-    --surface-sunken: #101012;
-    --ink: #edebe6;
-    --ink-muted: #8a8a8e;
-    /* 4.7:1 on paper, 4.6:1 on the sunken surface. */
-    --ink-faint: #7c7c80;
-    --hairline: #26262a;
-    --hairline-strong: #35353a;
-    --accent: #e0561b;
-    --accent-hover: #f07239;
-    --accent-wash: rgb(224 86 27 / 0.1);
-    --code-veil: 0.34;
+    --primary-color: #054163;
+    --gradient-bg: #054163;
+    --main-bg: #151327;
+    --sub-bg: #16142c;
+    --heading-color: #ffffff;
+    --paragraph: rgba(255, 255, 255, 0.8);
+    --paper: #151327;
+    --surface: #16142c;
+    --surface-sunken: #0f0d1d;
+    --surface-card: #054163;
+    --ink: #ffffff;
+    --ink-muted: rgba(255, 255, 255, 0.8);
+    --ink-faint: rgba(255, 255, 255, 0.5);
+    --hairline: rgba(255, 255, 255, 0.15);
+    --hairline-strong: rgba(255, 255, 255, 0.25);
+    --accent: #054163;
+    --accent-hover: #043352;
+    --accent-wash: rgba(5, 65, 99, 0.15);
+    --card-bg: linear-gradient(180deg, #054163 -21.56%, #00060c 252.19%);
+    --card-border: rgba(255, 255, 255, 0.12);
+    --card-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    --card-shadow-hover: 0 22px 50px rgba(0, 0, 0, 0.45);
+    --label-color: #5aa9dd;
+    --hero-accent: #7fd0ff;
+    --hero-plate: linear-gradient(105deg, #0f0d1d -20%, #0a3350 48%, #054163 115%);
+    --hero-fade: #0f0d1d;
+    --code-fg: rgba(190, 220, 255, 0.75);
+    --code-keyword: #7fd0ff;
+    --code-string: #9be7c4;
+    --code-number: #ffd79a;
+    --code-comment: rgba(255, 255, 255, 0.38);
+    --header-solid: rgba(15, 13, 29, 0.86);
+    --progress-from: #5aa9dd;
+    --progress-to: #ffffff;
   }
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --primary-color: #054163;
+  --gradient-bg: #054163;
+  --main-bg: #ffffff;
+  --sub-bg: #f3f7fb;
+  --heading-color: #0f0d1d;
+  --paragraph: #585858;
+  --paper: #ffffff;
+  --surface: #f3f7fb;
+  --surface-sunken: #eef2f8;
+  --surface-card: #ffffff;
+  --ink: #0f0d1d;
+  --ink-muted: #585858;
+  --ink-faint: #888888;
+  --hairline: #e3e3e3;
+  --hairline-strong: #cccccc;
+  --accent: #054163;
+  --accent-hover: #043352;
+  --accent-wash: rgba(5, 65, 99, 0.08);
+  --card-bg: #ffffff;
+  --card-border: #e3e3e3;
+  --card-shadow: 0 12px 30px rgba(15, 13, 29, 0.08);
+  --card-shadow-hover: 0 22px 48px rgba(15, 13, 29, 0.14);
+  --label-color: #054163;
+  --hero-accent: #0277a9;
+  --hero-plate: linear-gradient(105deg, #ffffff -20%, #eaf5fc 48%, #d2ecf9 115%);
+  --hero-fade: #ffffff;
+  --code-fg: rgba(20, 50, 75, 0.72);
+  --code-keyword: #054163;
+  --code-string: #0a7a54;
+  --code-number: #b45309;
+  --code-comment: rgba(15, 13, 29, 0.4);
+  --header-solid: rgba(255, 255, 255, 0.86);
+  --progress-from: #054163;
+  --progress-to: #5aa9dd;
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
+  --primary-color: #054163;
+  --gradient-bg: #054163;
+  --main-bg: #151327;
+  --sub-bg: #16142c;
+  --heading-color: #ffffff;
+  --paragraph: rgba(255, 255, 255, 0.8);
+  --paper: #151327;
+  --surface: #16142c;
+  --surface-sunken: #0f0d1d;
+  --surface-card: #054163;
+  --ink: #ffffff;
+  --ink-muted: rgba(255, 255, 255, 0.8);
+  --ink-faint: rgba(255, 255, 255, 0.5);
+  --hairline: rgba(255, 255, 255, 0.15);
+  --hairline-strong: rgba(255, 255, 255, 0.25);
+  --accent: #054163;
+  --accent-hover: #043352;
+  --accent-wash: rgba(5, 65, 99, 0.15);
+  --card-bg: linear-gradient(180deg, #054163 -21.56%, #00060c 252.19%);
+  --card-border: rgba(255, 255, 255, 0.12);
+  --card-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  --card-shadow-hover: 0 22px 50px rgba(0, 0, 0, 0.45);
+  --label-color: #5aa9dd;
+  --hero-accent: #7fd0ff;
+  --hero-plate: linear-gradient(105deg, #0f0d1d -20%, #0a3350 48%, #054163 115%);
+  --hero-fade: #0f0d1d;
+  --code-fg: rgba(190, 220, 255, 0.75);
+  --code-keyword: #7fd0ff;
+  --code-string: #9be7c4;
+  --code-number: #ffd79a;
+  --code-comment: rgba(255, 255, 255, 0.38);
+  --header-solid: rgba(15, 13, 29, 0.86);
+  --progress-from: #5aa9dd;
+  --progress-to: #ffffff;
+}
 
-  --paper: #0b0b0c;
-  --surface: #141416;
-  --surface-sunken: #101012;
-  --ink: #edebe6;
-  --ink-muted: #8a8a8e;
-  /* 4.7:1 on paper, 4.6:1 on the sunken surface. */
-  --ink-faint: #7c7c80;
-  --hairline: #26262a;
-  --hairline-strong: #35353a;
-  --accent: #e0561b;
-  --accent-hover: #f07239;
-  --accent-wash: rgb(224 86 27 / 0.1);
-  --code-veil: 0.34;
+/* ---------------------------------------------------------------------------
+   band-dark — a full-bleed qtglobal-style dark band.
+
+   Rather than hard-coding white text inside every dark section, the band
+   re-declares the ink tokens. Everything downstream — `text-ink`,
+   `text-muted`, `border-hairline`, the base `h2`/`p` colours — then resolves
+   to the light values inside the band and to the theme values everywhere
+   else, so the same markup stays correct in both themes.
+   --------------------------------------------------------------------------- */
+
+.band-dark {
+  --ink: #ffffff;
+  --ink-muted: rgba(255, 255, 255, 0.8);
+  --ink-faint: rgba(255, 255, 255, 0.55);
+  --hairline: rgba(255, 255, 255, 0.15);
+  --hairline-strong: rgba(255, 255, 255, 0.28);
+  --heading-color: #ffffff;
+  --paragraph: rgba(255, 255, 255, 0.8);
+  --label-color: rgba(255, 255, 255, 0.72);
+  --card-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.09) -21.56%,
+    rgba(255, 255, 255, 0.02) 252.19%
+  );
+  --card-border: rgba(255, 255, 255, 0.14);
+  --card-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  --card-shadow-hover: 0 22px 50px rgba(0, 0, 0, 0.45);
+  --accent: #ffffff;
+  --accent-hover: #e8f4fb;
+  --accent-wash: rgba(255, 255, 255, 0.12);
+  color: var(--ink-muted);
+}
+
+/* ---------------------------------------------------------------------------
+   btn-one — exact qtglobal.rw button style
+   --------------------------------------------------------------------------- */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 15px 25px;
+  background: var(--gradient-bg);
+  font-weight: 600;
+  color: #ffffff;
+  transition: var(--transition);
+  text-transform: capitalize;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  font-size: 16px;
+  line-height: 28px;
+  white-space: nowrap;
+  box-shadow: 0 12px 30px rgba(5, 65, 99, 0.35);
+}
+
+/* The reference site paints two halves over the button on hover. That needs a
+   stacking context the button does not have — the halves were rendering behind
+   its own background and doing nothing — so the lift does the same job with a
+   colour change, which also works with a keyboard focus. */
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--accent-hover);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(5, 65, 99, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Outline button — themed so it survives a light card as well as a dark band. */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 13px 25px;
+  background: transparent;
+  font-weight: 600;
+  color: var(--heading-color);
+  border: 2px solid var(--hairline-strong);
+  transition: var(--transition);
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.band-dark .btn-outline {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.band-dark .btn-outline:hover,
+.band-dark .btn-outline:focus-visible {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: #054163;
+}
+
+/* Primary button on a dark band: white fill, brand ink. */
+.band-dark .btn-primary {
+  background: #ffffff;
+  color: #054163;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.band-dark .btn-primary:hover,
+.band-dark .btn-primary:focus-visible {
+  background: #e8f4fb;
+  color: #043352;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.35);
+}
+
+/* Service card — qtglobal.rw card surface, driven by theme tokens so it stays
+   readable in light mode instead of painting dark navy under dark text. */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: var(--label-color);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Stats band — web3mates-style big-number row on the light page. */
+.stats-band {
+  background: var(--paper);
+  position: relative;
+  z-index: 2;
+}
+
+.stat-card {
+  position: relative;
+  padding: 1.75rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.stat-card__value {
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--heading-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-card__label {
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.stat-card__rule {
+  display: block;
+  width: 2.5rem;
+  height: 3px;
+  margin-top: 1rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--hero-accent));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.reveal.is-in .stat-card__rule {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-card__rule {
+    transform: scaleX(1) !important;
+  }
+}
+
+/* Announcement bar above the header. */
+.announce-bar {
+  position: relative;
+  background: linear-gradient(90deg, #054163 0%, #0a5b86 55%, #076590 100%);
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.announce-bar__link {
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+  transition: text-decoration-color 0.25s ease;
+}
+
+.announce-bar__link:hover,
+.announce-bar__link:focus-visible {
+  text-decoration-color: #ffffff;
+}
+
+.announce-bar__dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.announce-bar__dismiss:hover,
+.announce-bar__dismiss:focus-visible {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+@keyframes announce-in {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.announce-bar {
+  animation: announce-in 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announce-bar {
+    animation: none;
+  }
+}
+
+/* Section header label — qtglobal.rw h4 style */
+.section-label-text {
+  color: var(--label-color);
+  font-size: 15px;
+  line-height: 28px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  display: block;
+}
+
+/* ---------------------------------------------------------------------------
+   Reveal on scroll.
+   --------------------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.75s ease,
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Hero — slider, orbs, particle grid, scroll cue.
+   --------------------------------------------------------------------------- */
+
+@keyframes hero-dot {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.hero-grid {
+  background-image: radial-gradient(circle, rgba(15, 13, 29, 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, #000 30%, transparent 75%);
+}
+
+.band-dark .hero-grid,
+.hero-plate-dark .hero-grid {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+  opacity: 0.55;
+  animation: orb-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes orb-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(40px, -34px, 0) scale(1.14);
+  }
+}
+
+.scroll-cue {
+  animation: cue-bob 1.9s ease-in-out infinite;
+}
+
+@keyframes cue-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translateY(9px);
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Africa + robot hero graphic — real map (public/africa-map.svg) masks a
+   circuit/robot layer; the map outline sits on top. Sized to sit fully
+   inside the hero (never clipped by overflow-hidden).
+   --------------------------------------------------------------------------- */
+
+.hero-plate {
+  /* First screen — map + copy share it without clipping. */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Copy column — clear the fixed header/announcement, stay inside 100svh. */
+.hero-copy {
+  padding-top: clamp(8.5rem, 18vh, 13rem);
+  padding-bottom: clamp(3rem, 7vh, 5.5rem);
+}
+
+.africa-map-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  opacity: 1;
+  /* Anchor to the first screen (not the full tall hero) so the graphic
+     stays centered on the scrolling headline. */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: auto;
+  height: 100svh;
+  padding:
+    clamp(7rem, 15vh, 10rem)
+    clamp(1rem, 3vw, 3rem)
+    clamp(2.5rem, 6vh, 4rem)
+    clamp(1rem, 3vw, 3rem);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.africa-map {
+  position: relative;
+  /* Large + centered; low opacity so the headline stays readable over it. */
+  width: min(70vw, calc(100svh - 12rem), 760px);
+  aspect-ratio: 1000 / 1001;
+  margin-inline: auto;
+  opacity: 0.3;
+  filter: drop-shadow(0 24px 48px rgba(5, 65, 99, 0.16));
+  animation: africa-float 12s ease-in-out infinite alternate;
+}
+
+/* Robot + circuits clipped to the continent silhouette. */
+.africa-map__masked {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: url('/africa-mask.svg');
+  mask-image: url('/africa-mask.svg');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  overflow: hidden;
+}
+
+.africa-map__inner {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Real map outline / country borders on top of the masked layer. */
+.africa-map__outline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+@keyframes africa-float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-18px);
+  }
+}
+
+/* Circuit traces — soft dash flow. */
+.africa-map__traces path {
+  stroke-dasharray: 16 12;
+  animation: circuit-flow 6s linear infinite;
+}
+
+@keyframes circuit-flow {
+  to {
+    stroke-dashoffset: -56;
+  }
+}
+
+/* Node pulse. */
+.africa-map__nodes circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-pulse 2.4s ease-in-out infinite;
+}
+
+.africa-map__nodes circle:nth-child(odd) {
+  animation-delay: -1.2s;
+}
+
+@keyframes node-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+/* Robot eyes blink. */
+.africa-map__eyes {
+  animation: robot-blink 4.5s step-end infinite;
+}
+
+@keyframes robot-blink {
+  0%,
+  42%,
+  48%,
+  100% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.15;
+  }
+}
+
+/* Antenna beacon + chest core. */
+.africa-map__antenna {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: beacon 1.8s ease-in-out infinite;
+}
+
+.africa-map__core {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: beacon 2.6s ease-in-out infinite;
+}
+
+@keyframes beacon {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* Scan line sweeps top → bottom inside the silhouette. */
+.africa-map__scan {
+  animation: africa-scan 5.5s linear infinite;
+}
+
+@keyframes africa-scan {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(1100px);
+  }
+}
+
+/* Short laptops (≤800px tall): keep the centered map fully on screen. */
+@media (max-height: 800px) and (min-width: 1024px) {
+  .hero-copy {
+    padding-top: clamp(7.5rem, 15vh, 9.5rem);
+    padding-bottom: clamp(2.5rem, 5vh, 3.5rem);
+  }
+
+  .africa-map-wrap {
+    padding-top: clamp(6.5rem, 12vh, 8rem);
+    padding-bottom: 1.5rem;
+  }
+
+  .africa-map {
+    width: min(64vw, calc(100svh - 10rem), 640px);
+    opacity: 0.32;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-plate {
+    min-height: auto;
+  }
+
+  .africa-map-wrap {
+    height: 100%;
+    min-height: 100svh;
+    padding: 5.5rem 1rem 2rem;
+  }
+
+  .africa-map {
+    width: min(92vw, calc(100svh - 12rem), 520px);
+    margin-inline: auto;
+    opacity: 0.28;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .africa-map,
+  .africa-map__traces path,
+  .africa-map__nodes circle,
+  .africa-map__eyes,
+  .africa-map__antenna,
+  .africa-map__core,
+  .africa-map__scan {
+    animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Marquee — infinite tech/partner strip, pauses on hover.
+   --------------------------------------------------------------------------- */
+
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration, 42s) linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll progress bar (header).
+   --------------------------------------------------------------------------- */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--scroll-progress, 0));
+  background: linear-gradient(90deg, var(--progress-from), var(--progress-to));
+  z-index: 60;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Nav link — underline that grows from the left, like the reference header.
+   --------------------------------------------------------------------------- */
+
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding-block: 0.5rem;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after,
+.nav-link[aria-current='page']::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* ---------------------------------------------------------------------------
+   Hover-reveal product card — qtglobal.rw `service-three__up-content`.
+   The panel sits centred over the artwork at zero opacity and is brought in
+   on hover (and permanently on touch, where there is no hover to give).
+   --------------------------------------------------------------------------- */
+
+.reveal-card__panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.75rem;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-card:hover .reveal-card__panel,
+.reveal-card:focus-within .reveal-card__panel {
+  opacity: 1;
+  transform: none;
+}
+
+/* No hover to give: show the panel permanently over the artwork. The card's
+   title and metadata sit outside the panel, so nothing is lost. */
+@media (hover: none) {
+  .reveal-card {
+    position: relative;
+  }
+
+  .reveal-card__panel {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Case-study card — artwork with an overlay caption and a round arrow.
+   --------------------------------------------------------------------------- */
+
+.work-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3, 20, 32, 0) 35%, rgba(3, 20, 32, 0.92) 100%);
+  transition: opacity 0.4s ease;
+}
+
+.work-card__media {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-card:hover .work-card__media {
+  transform: scale(1.07);
+}
+
+.work-card__arrow {
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.work-card:hover .work-card__arrow {
+  transform: translate(4px, -4px);
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #054163;
+}
+
+/* ---------------------------------------------------------------------------
+   Icon tile used by the service and about cards.
+   --------------------------------------------------------------------------- */
+
+.icon-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 66px;
+  height: 66px;
+  border-radius: 12px;
+  background: var(--accent-wash);
+  border: 1px solid var(--hairline);
+  color: var(--label-color);
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.35s ease,
+    color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.group:hover .icon-tile,
+.group:focus-visible .icon-tile {
+  transform: translateY(-4px) rotate(-6deg);
+  background: var(--label-color);
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(5, 65, 99, 0.22);
+}
+
+/* Floating stat card on the about image. */
+.float-chip {
+  animation: chip-float 6s ease-in-out infinite;
+}
+
+@keyframes chip-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb,
+  .scroll-cue,
+  .marquee__track,
+  .float-chip {
+    animation: none !important;
+  }
 }
 
 /* ---------------------------------------------------------------------------
    Touch hit areas.
-
-   The type on this site is deliberately compact, which leaves links and nav
-   items around 21px tall — fine for a mouse, too small for a thumb. Rather
-   than inflate everything for everyone, these rules apply only where the
-   primary input is coarse, so a phone or tablet gets ~44px targets while the
-   desktop layout keeps its density.
-
-   `.tap` uses padding on an inline element: that expands the hit box without
-   changing the line box, so nothing moves. `.tap-icon` is for compact square
-   controls, which have to grow in both directions.
    --------------------------------------------------------------------------- */
 
 @media (pointer: coarse) {
   .tap {
     padding-block: 0.8125rem;
   }
-
-  /*
-   * Size only — never `display`. Setting display here overrode Tailwind's
-   * `hidden` on the desktop-only "Request a quote" button, which then appeared
-   * on phones and pushed the header past the viewport at 320px. Buttons are
-   * inline-block already, so min-width/min-height apply without touching
-   * display; elements that need centering set their own flex classes.
-   */
   .tap-icon {
     align-items: center;
     justify-content: center;
@@ -117,14 +1000,6 @@
 
 /* ---------------------------------------------------------------------------
    Theme-toggle icon.
-
-   Which icon shows is decided in CSS, by exactly the same selectors that
-   decide the theme itself, so it is correct in the very first painted frame.
-   Doing it in JavaScript would mean the icon is unknowable during server
-   render and would either flash or shift once the component mounts.
-
-   The button shows the theme it switches TO: a moon while light, a sun while
-   dark.
    --------------------------------------------------------------------------- */
 
 .theme-icon-sun {
@@ -135,7 +1010,6 @@
   :root:not([data-theme='light']) .theme-icon-sun {
     display: block;
   }
-
   :root:not([data-theme='light']) .theme-icon-moon {
     display: none;
   }
@@ -144,176 +1018,156 @@
 :root[data-theme='dark'] .theme-icon-sun {
   display: block;
 }
-
 :root[data-theme='dark'] .theme-icon-moon {
   display: none;
 }
 
 /* ---------------------------------------------------------------------------
-   Hero code backdrop.
-
-   Three columns of our own source drifting behind the headline. The component
-   is `src/components/home/CodeBackdrop.tsx`; everything that decides how it
-   looks and whether it moves lives here.
-
-   Four decisions are load-bearing:
-
-   1. Live text, not a generated image. It costs no download, stays sharp at
-      any density without a 2x asset, and recolours itself from the theme
-      tokens — one layer serves both themes rather than one file each.
-
-   2. Two masks, intersected, rather than one opacity. The horizontal ramp
-      clears the left of the hero where 68px display type sits, the vertical
-      one dies out before the "What we do" trio. A flat layer across the whole
-      section would have put texture directly under the headline, which is the
-      usual way this effect ruins a page. The ramp reaches full strength just
-      past where the headline's longest line ends, so the code gains presence
-      in the empty right margin without crowding the type.
-
-   3. The scroll is one transform on a tripled block: the column renders its
-      source three times and travels `calc(-100% / 3)`, which is exactly one
-      copy, so copy two arrives where copy one started and the loop has no
-      seam. Three rather than two because the travel is subtracted from the
-      content below the window — two copies leave the bottom of a tall column
-      empty near the end of each cycle. Nothing is measured, nothing runs in
-      JavaScript, and the whole thing stays on the compositor.
-
-   4. The layer is capped at 46rem and anchored to the top of the section, not
-      stretched to it. The hero is around 900px on a desktop and nearer 1600px
-      on a phone, where the trio stacks; tying the backdrop to that would make
-      the fade land somewhere different on every screen and would need a
-      column taller than the tallest case.
-
-   Durations and direction come from inline styles, so the three columns run
-   at different speeds and are never in step. Narrow screens drop columns
-   rather than squeezing them — see the component for which appears when.
+   Header — transparent over the hero, frosted once scrolled.
    --------------------------------------------------------------------------- */
 
-.code-backdrop {
-  position: absolute;
-  inset: 0 0 auto auto;
-  height: min(100%, 46rem);
-  /*
-   * One column below `lg`, so the layer is capped at roughly one column wide.
-   * Left as a share of the viewport it stretched the single column across the
-   * whole hero, and because a column lays its text out from the left, the code
-   * ended up on the left — the one place the composition wants clear.
-   */
-  width: min(90%, 24rem);
-  z-index: -1;
-  display: flex;
-  gap: 2rem;
-  overflow: hidden;
-  pointer-events: none;
-  user-select: none;
-  color: var(--ink-faint);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  line-height: 1.85;
-
-  /*
-   * Phones first, and they are the hard case: the headline runs the full
-   * width, so there is no clear column for the code to sit in and the
-   * horizontal ramp has nothing to clear. Two things keep it readable —
-   * under half the veil, so the code is texture rather than competing text,
-   * and a vertical mask that holds off until the headline's first lines are
-   * past. The remaining band falls behind the tagline and the two links, so
-   * it is kept quiet enough not to interfere with reading either.
-   */
-  opacity: calc(var(--code-veil) * 0.45);
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 10%,
-    #000 40%,
-    #000 76%,
-    transparent 96%
-  );
-  mask-image: linear-gradient(to bottom, transparent 10%, #000 40%, #000 76%, transparent 96%);
+.site-header {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid transparent;
 }
 
-/*
- * From `lg` up — where the second column appears — the headline finally stops
- * short of the right edge and leaves the code a margin of its own. That is
- * where the full veil and the horizontal ramp earn their keep. Switching at
- * `md` was too early: at 768px the headline still runs to within ~70px of the
- * edge, so a full-strength layer had nowhere to go but behind the type.
- */
-@media (min-width: 64rem) {
-  .code-backdrop {
-    opacity: var(--code-veil);
-    width: 82%;
-    gap: 2.5rem;
-
-    -webkit-mask-image:
-      linear-gradient(to right, transparent 2%, rgb(0 0 0 / 0.55) 34%, #000 62%),
-      linear-gradient(to bottom, transparent, #000 8%, #000 66%, transparent 94%);
-    -webkit-mask-composite: source-in;
-    mask-image:
-      linear-gradient(to right, transparent 2%, rgb(0 0 0 / 0.55) 34%, #000 62%),
-      linear-gradient(to bottom, transparent, #000 8%, #000 66%, transparent 94%);
-    mask-composite: intersect;
-  }
+.site-header.is-solid {
+  background: var(--header-solid);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom-color: var(--hairline);
 }
 
-.code-backdrop__column {
-  flex: 1 1 0;
-  min-width: 0;
-  overflow: hidden;
+.site-header__logo-word {
+  color: var(--heading-color);
 }
 
-.code-backdrop__scroll {
-  animation-name: code-backdrop-scroll;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  will-change: transform;
+.site-header.is-solid .site-header__logo-word,
+.site-header .site-header__logo-word {
+  color: var(--heading-color);
 }
 
-.code-backdrop__line {
-  white-space: pre;
-}
-
-.code-backdrop__comment {
-  opacity: 0.7;
-}
-
-.code-backdrop__keyword {
+.site-header__nav-link {
   color: var(--ink-muted);
 }
 
-.code-backdrop__string,
-.code-backdrop__number {
-  color: var(--accent);
+.site-header__nav-link:hover,
+.site-header__nav-link[aria-current='page'] {
+  color: var(--heading-color);
 }
 
-@keyframes code-backdrop-scroll {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(0, calc(-100% / 3), 0);
-  }
+.site-header__menu-btn {
+  border: 1px solid var(--hairline-strong);
+  color: var(--heading-color);
+  background: transparent;
 }
 
-/*
- * The global reduced-motion rule collapses durations to 0.01ms, which for a
- * loop like this one would snap it to its end frame rather than stop it.
- * Clearing the animation name is what actually holds it still, and the
- * backdrop stays as static texture.
- */
-@media (prefers-reduced-motion: reduce) {
-  .code-backdrop__scroll {
-    animation: none;
-  }
+.site-header__menu-btn:hover {
+  background: var(--accent-wash);
 }
 
-/* Map the runtime tokens into Tailwind's theme. `inline` keeps the var
-   reference in the generated utility, so theme switching works at runtime. */
+.site-header__mobile {
+  background: var(--header-solid);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-top: 1px solid var(--hairline);
+}
+
+/* Hero accent span — contrast flips with the plate. */
+.hero-accent {
+  color: var(--hero-accent);
+}
+
+/* ---------------------------------------------------------------------------
+   Footer — solid brand band with token-driven links.
+   --------------------------------------------------------------------------- */
+
+.site-footer {
+  background: #054163;
+  overflow: hidden;
+  position: relative;
+  color: rgba(255, 255, 255, 0.8);
+  /* Re-declare ink so token-driven children (ContactLines etc.) stay light. */
+  --ink: #ffffff;
+  --ink-muted: rgba(255, 255, 255, 0.8);
+  --ink-faint: rgba(255, 255, 255, 0.55);
+  --hairline: rgba(255, 255, 255, 0.15);
+  --hairline-strong: rgba(255, 255, 255, 0.28);
+  --heading-color: #ffffff;
+  --paragraph: rgba(255, 255, 255, 0.8);
+  --label-color: rgba(255, 255, 255, 0.72);
+  --accent: #ffffff;
+  --accent-hover: #e8f4fb;
+  --accent-wash: rgba(255, 255, 255, 0.12);
+}
+
+.site-footer__heading {
+  color: #ffffff;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.site-footer__link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  line-height: 1.75;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.site-footer__link:hover,
+.site-footer__link:focus-visible {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.site-footer__social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.site-footer__social:hover,
+.site-footer__social:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.55);
+  transform: translateY(-2px);
+}
+
+.site-footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.25rem 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Tailwind theme mapping.
+   --------------------------------------------------------------------------- */
+
 @theme inline {
   --color-*: initial;
 
   --color-paper: var(--paper);
   --color-surface: var(--surface);
   --color-sunken: var(--surface-sunken);
+  --color-card: var(--surface-card);
   --color-ink: var(--ink);
   --color-muted: var(--ink-muted);
   --color-faint: var(--ink-faint);
@@ -325,100 +1179,153 @@
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Kumbh Sans — exact qtglobal.rw font */
+  --font-sans: var(--font-kumbh), 'Kumbh Sans', ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SFMono-Regular', monospace;
 
-  /*
-   * Five sizes, no more.
-   *
-   * Scaled up from the first draft to carry more presence, taking the
-   * proportions of a conventional marketing site (hero ~60px/700, section
-   * heads ~36px/700, body 16px) but keeping display line-height tight. The
-   * reference that prompted this set its 60px hero on 75px leading — 1.25,
-   * which is body spacing applied to display type and reads soft. Here the
-   * hero sits at 1.02 and titles at 1.1, so the larger sizes gain weight
-   * without losing their edge.
-   *
-   * Body drops 17px -> 16px deliberately: widening the gap between body and
-   * headings is what produces hierarchy, and it is cheaper than making the
-   * headings louder still.
-   */
-  --text-meta: 0.8125rem;
+  /* Exact qtglobal.rw type scale */
+  --text-meta: 0.875rem; /* 14px */
   --text-meta--line-height: 1.5;
-  --text-meta--letter-spacing: 0.04em;
-  --text-body: 1rem;
-  --text-body--line-height: 1.6;
-  --text-lead: 1.25rem;
-  --text-lead--line-height: 1.5;
-  --text-title: clamp(1.875rem, 3.2vw, 2.375rem);
-  --text-title--line-height: 1.1;
-  --text-title--letter-spacing: -0.025em;
-  --text-hero: clamp(2.75rem, 6.5vw, 4.25rem);
-  --text-hero--line-height: 1.02;
-  --text-hero--letter-spacing: -0.035em;
+  --text-body: 1rem; /* 16px — qtglobal p font-size */
+  --text-body--line-height: 1.75; /* line-height: 28px */
+  --text-lead: 1.25rem; /* 20px */
+  --text-lead--line-height: 1.6;
+  --text-title: 2.5rem; /* 40px — qtglobal h2 */
+  --text-title--line-height: 1.2; /* 48px / 40px */
+  --text-title--letter-spacing: 0em;
+  --text-hero: clamp(2.5rem, 5vw, 3.75rem); /* 60px — qtglobal h1 */
+  --text-hero--line-height: 1.5; /* 90px / 60px */
+  --text-hero--letter-spacing: 0em;
 
-  --radius-xs: 2px;
-  --radius-sm: 3px;
-  --radius-md: 6px;
+  --radius-xs: 0px; /* qtglobal uses sharp corners */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 8px;
 
   --container-content: 75rem;
-
   --ease-ui: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ===========================================================================
-   Base
+   Base — exact qtglobal.rw base styles
    =========================================================================== */
 
 @layer base {
   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     border-color: var(--hairline);
   }
 
   html {
     -webkit-text-size-adjust: 100%;
-    /*
-     * No `scroll-behavior: smooth` here, deliberately. It does not only affect
-     * anchor links: the App Router scrolls to the top on every client-side
-     * navigation, and a smooth root turns that into an animated ~800ms glide up
-     * the old page. Measured from a course row halfway down /academy, the new
-     * page drifted 2500px upward instead of simply starting at the top.
-     * Instant is also the better default for motion sensitivity.
-     */
   }
 
   body {
     background-color: var(--paper);
-    color: var(--ink);
+    color: var(--ink-muted);
     font-family: var(--font-sans);
-    font-size: var(--text-body);
-    line-height: 1.6;
+    font-size: 16px;
+    line-height: 28px;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
   }
 
-  /*
-   * Display weights carry the hierarchy now. 700 for the two levels that act
-   * as display type, 600 for the subheads below them — a real step between
-   * levels rather than one medium weight doing every job.
-   * Instrument Sans is variable up to 700, so no extra file is fetched.
-   */
-  h1,
-  h2 {
+  /* qtglobal.rw heading sizes, tightened: the reference sets 60/90 on the h1,
+     which leaves the hero lines drifting apart at display size. */
+  h1 {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
     font-weight: 700;
-    letter-spacing: -0.025em;
-    text-wrap: balance;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--heading-color);
+    font-family: var(--font-sans);
   }
 
-  h3,
-  h4 {
-    font-weight: 600;
+  h2 {
+    font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.2;
     letter-spacing: -0.015em;
-    text-wrap: balance;
+    color: var(--heading-color);
+    font-family: var(--font-sans);
   }
 
-  /* Dates, durations and course codes must not jitter between rows. */
+  h3 {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 600;
+    color: var(--heading-color);
+    font-family: var(--font-sans);
+  }
+
+  h4 {
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 700;
+    color: var(--heading-color);
+    font-family: var(--font-sans);
+  }
+
+  h5 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+    color: var(--heading-color);
+    font-family: var(--font-sans);
+  }
+
+  h6 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--heading-color);
+    font-family: var(--font-sans);
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 767px) {
+    h1 {
+      font-size: 36px;
+      line-height: 1.3;
+    }
+    h2 {
+      font-size: 30px;
+      line-height: 40px;
+    }
+  }
+
+  @media (max-width: 575px) {
+    h1 {
+      font-size: 28px;
+      line-height: 1.3;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--heading-color);
+    transition: var(--transition);
+  }
+
+  a:hover {
+    color: var(--heading-color);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    list-style: none;
+  }
+
   code,
   kbd,
   samp,
@@ -429,40 +1336,13 @@
   }
 
   ::selection {
-    background-color: var(--accent);
-    color: var(--paper);
+    color: #ffffff;
+    background-color: var(--primary-color);
   }
 
   :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
-    border-radius: 1px;
-  }
-
-  /* Only deliberate hover/focus transitions. Nothing on entry. */
-  a,
-  button,
-  input,
-  select,
-  textarea,
-  summary {
-    transition:
-      color 160ms var(--ease-ui),
-      background-color 160ms var(--ease-ui),
-      border-color 160ms var(--ease-ui),
-      text-decoration-color 160ms var(--ease-ui);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    /* Scrolling is already instant for everyone — see the note on html above. */
-
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
   }
 
   input,
@@ -471,37 +1351,43 @@
     font: inherit;
     color: inherit;
   }
-
-  /* Firefox glows red on :invalid before a field is ever touched. */
   input:invalid,
   select:invalid,
   textarea:invalid {
     box-shadow: none;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 /* ===========================================================================
-   Long-form MDX bodies: case studies, course syllabi, legal pages.
+   Long-form MDX bodies.
    =========================================================================== */
 
 .prose {
   max-width: 65ch;
 }
-
 .prose > * + * {
   margin-top: 1.5rem;
 }
 
 .prose h2 {
   margin-top: 3rem;
-  font-size: var(--text-lead);
+  font-size: 24px;
   font-weight: 600;
-  letter-spacing: -0.01em;
 }
 
 .prose h3 {
   margin-top: 2rem;
-  font-size: var(--text-body);
+  font-size: 20px;
   font-weight: 600;
 }
 
@@ -514,46 +1400,33 @@
   color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
 }
 
 .prose a:hover {
-  color: var(--accent-hover);
+  opacity: 0.8;
 }
 
 .prose ol {
   padding-left: 1.125rem;
   list-style: decimal;
 }
-
-.prose ol > li::marker {
-  color: var(--ink-faint);
-  font-family: var(--font-mono);
-  font-size: var(--text-meta);
-}
-
-/* An en dash reads as considered; a filled bullet reads as a template. */
 .prose ul {
   list-style: none;
   padding-left: 0;
 }
-
 .prose ul > li {
   position: relative;
   padding-left: 1.125rem;
 }
-
 .prose ul > li::before {
   content: '–';
   position: absolute;
   left: 0;
   color: var(--ink-faint);
 }
-
 .prose li + li {
   margin-top: 0.5rem;
 }
-
 .prose strong {
   font-weight: 600;
 }
@@ -563,16 +1436,14 @@
   font-size: 0.9em;
   background-color: var(--surface-sunken);
   border: 1px solid var(--hairline);
-  border-radius: var(--radius-xs);
   padding: 0.1em 0.3em;
 }
 
 .prose pre {
   font-family: var(--font-mono);
-  font-size: var(--text-meta);
+  font-size: 14px;
   background-color: var(--surface-sunken);
   border: 1px solid var(--hairline);
-  border-radius: var(--radius-sm);
   padding: 1rem 1.25rem;
   overflow-x: auto;
   line-height: 1.7;
@@ -582,11 +1453,10 @@
   background: none;
   border: none;
   padding: 0;
-  font-size: inherit;
 }
 
 .prose blockquote {
-  border-left: 1px solid var(--hairline-strong);
+  border-left: 4px solid var(--accent);
   padding-left: 1.25rem;
   color: var(--ink-muted);
 }
@@ -600,10 +1470,8 @@
 .prose table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--text-meta);
-  font-family: var(--font-mono);
+  font-size: 14px;
 }
-
 .prose th,
 .prose td {
   text-align: left;
@@ -611,10 +1479,8 @@
   border-bottom: 1px solid var(--hairline);
   vertical-align: top;
 }
-
 .prose th {
   color: var(--ink-muted);
   font-weight: 400;
-  letter-spacing: 0.04em;
   text-transform: uppercase;
 }

@@ -5,7 +5,7 @@ import { site } from '@/content/site';
 /**
  * Web manifest. The site is not a PWA and registers no service worker — this
  * exists so an installed shortcut carries the right name, colours and icon.
- * The PNGs are generated from src/app/icon.svg by `npm run icons`.
+ * The PNGs are generated from public/Totally Ink.png by `npm run icons`.
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
