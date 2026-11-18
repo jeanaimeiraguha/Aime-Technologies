@@ -88,11 +88,6 @@ export default function AcademyPage() {
             systems for a living, not only teach them.
           </p>
         }
-        meta={[
-          { label: 'Courses', value: String(courses.length) },
-          { label: 'Language', value: 'English' },
-          { label: 'Delivery', value: 'Live online · recorded · projects' },
-        ]}
         aside={
           <div className="flex flex-wrap items-center gap-6">
             <ButtonLink href="#catalogue">Browse the catalogue</ButtonLink>

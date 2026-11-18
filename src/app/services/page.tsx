@@ -37,12 +37,7 @@ export default function ServicesPage() {
             — so you can judge the fit before talking to us.
           </p>
         }
-        meta={[
-          { label: 'Service lines', value: String(services.length) },
-          { label: 'Based in', value: 'Kigali, Rwanda' },
-          { label: 'Working', value: 'On site & remote' },
-        ]}
-      />
+/>
 
       <Container>
         <ServiceList services={services} headingLevel="h2" />
