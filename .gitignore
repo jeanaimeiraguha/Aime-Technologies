@@ -38,3 +38,6 @@ yarn-error.log*
 .eslintcache
 /lighthouse
 /screenshots
+
+# Academy application store (PII — never commit)
+/data/

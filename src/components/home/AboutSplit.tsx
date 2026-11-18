@@ -2,12 +2,10 @@ import { ArrowRight, BadgeCheck, CircleCheck } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { CountUp } from '@/components/home/CountUp';
 import { Reveal } from '@/components/home/Reveal';
 import { Container } from '@/components/ui/Container';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { site } from '@/content/site';
-import { getAllCaseStudies } from '@/lib/content/work';
 
 const PROMISES = [
   'You own the repository and the hosting accounts throughout — nothing is held in our name.',
@@ -86,41 +84,6 @@ export function AboutSplit() {
                 }}
                 aria-hidden="true"
               />
-
-              <div
-                className="absolute right-5 bottom-5 left-5 flex flex-wrap items-center gap-4 rounded-lg border border-white/15 px-5 py-4 backdrop-blur-sm"
-                style={{ background: 'rgba(4,28,44,0.78)' }}
-              >
-                <div>
-                  <h3 className="text-[1.75rem] leading-none font-bold text-white tabular-nums">
-                    <CountUp value={getAllCaseStudies().length} suffix="+" />
-                  </h3>
-                  <p className="mt-1.5 text-[0.8125rem] text-white/75">
-                    Case studies published
-                  </p>
-                </div>
-                <span
-                  className="hidden h-10 w-px sm:block"
-                  style={{ background: 'rgba(255,255,255,0.25)' }}
-                  aria-hidden="true"
-                />
-                <div>
-                  <h3 className="text-[1.75rem] leading-none font-bold text-white tabular-nums">
-                    {site.founded}
-                  </h3>
-                  <p className="mt-1.5 text-[0.8125rem] text-white/75">Established</p>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="float-chip border-hairline absolute -top-5 -left-4 hidden rounded-lg border px-5 py-3 shadow-xl sm:block"
-              style={{ background: 'var(--card-bg)' }}
-            >
-              <p className="text-faint font-mono text-[0.6875rem] tracking-[0.16em] uppercase">
-                Build · Test · Break
-              </p>
-              <p className="text-ink mt-1 text-[0.9375rem] font-semibold">Fix it. Ship it.</p>
             </div>
           </Reveal>
         </div>

@@ -31,13 +31,6 @@ export function AfricaRobotMap() {
               <stop offset="0.5" stopColor="#7fd0ff" stopOpacity="0.9" />
               <stop offset="1" stopColor="#7fd0ff" stopOpacity="0" />
             </linearGradient>
-            <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="8" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
           </defs>
 
           {/* Soft plate so the silhouette reads even where the robot does not reach */}
@@ -82,11 +75,7 @@ export function AfricaRobotMap() {
           </g>
 
           {/* Robot bust — sized to sit fully inside the continent mask */}
-          <g
-            className="africa-map__robot"
-            transform="translate(495 495) scale(1.28)"
-            filter="url(#glow)"
-          >
+          <g className="africa-map__robot" transform="translate(495 495) scale(1.28)">
             <path
               d="M-90 130 C-90 96 -62 74 -34 68 H34 C62 74 90 96 90 130 L90 170 H-90 Z"
               fill="url(#robot-body)"

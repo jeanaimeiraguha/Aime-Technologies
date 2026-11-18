@@ -6,7 +6,6 @@ import { ServiceCards } from '@/components/home/ServiceCards';
 import { SectorsGrid } from '@/components/home/SectorsGrid';
 import { StackMarquee } from '@/components/home/StackMarquee';
 import { StatsRow } from '@/components/home/StatsRow';
-import { WorkCards } from '@/components/home/WorkCards';
 
 export default function HomePage() {
   return (
@@ -20,8 +19,6 @@ export default function HomePage() {
       <ServiceCards />
 
       <AcademyCards />
-
-      <WorkCards />
 
       <SectorsGrid />
 

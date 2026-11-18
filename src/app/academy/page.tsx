@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { AcademyNav } from '@/components/academy/AcademyNav';
 import { CourseCatalogue } from '@/components/academy/CourseCatalogue';
 import { ButtonLink } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
@@ -76,6 +77,7 @@ export default function AcademyPage() {
 
   return (
     <>
+      <AcademyNav />
       <PageHeader
         label="Academy"
         title="We teach the way we learned: by building something that has to work."
@@ -94,6 +96,9 @@ export default function AcademyPage() {
         aside={
           <div className="flex flex-wrap items-center gap-6">
             <ButtonLink href="#catalogue">Browse the catalogue</ButtonLink>
+            <ButtonLink href="/academy/apply" variant="outline">
+              Apply to the Academy
+            </ButtonLink>
             <TextLink href="/contact?type=training">Training for a school or company</TextLink>
           </div>
         }

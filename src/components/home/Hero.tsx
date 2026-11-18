@@ -18,8 +18,8 @@ export function Hero() {
       {/* Texture layer 1 — the dot grid. */}
       <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden="true" />
 
-      {/* Background graphic — full Africa map + robot, right side, never clipped. */}
-      <div className="africa-map-wrap pointer-events-none absolute inset-0" aria-hidden="true">
+      {/* Art-directed map — occupies the right half of the hero, clear of copy. */}
+      <div className="africa-map-wrap pointer-events-none absolute" aria-hidden="true">
         <AfricaRobotMap />
       </div>
 
