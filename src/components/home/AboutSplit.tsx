@@ -66,7 +66,7 @@ export function AboutSplit() {
             <div
               className="border-hairline relative aspect-[4/3] overflow-hidden rounded-lg border"
               style={{
-                background: 'linear-gradient(140deg, #0a3350 0%, #054163 60%, #041c2c 100%)',
+                background: 'linear-gradient(140deg, #241f4a 0%, #1b1834 60%, #100e21 100%)',
               }}
             >
               <Image
@@ -80,7 +80,7 @@ export function AboutSplit() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    'linear-gradient(140deg, rgba(5,65,99,0.55) 0%, rgba(4,28,44,0.92) 100%)',
+                    'linear-gradient(140deg, rgba(36,31,74,0.55) 0%, rgba(16,14,33,0.92) 100%)',
                 }}
                 aria-hidden="true"
               />

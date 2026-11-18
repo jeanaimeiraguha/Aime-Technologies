@@ -14,14 +14,14 @@ export function CtaBand() {
       id="start"
       className="band-dark relative isolate overflow-hidden py-20 md:py-28"
       style={{
-        background: 'linear-gradient(105deg, #054163 -10%, #0a3350 55%, #0f0d1d 120%)',
+        background: 'linear-gradient(105deg, #151327 -10%, #1f1a3f 55%, #100e21 120%)',
       }}
     >
       <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden="true" />
       <div
         className="hero-orb -bottom-40 -left-20 h-[380px] w-[380px]"
         style={{
-          background: 'radial-gradient(circle, rgba(127,208,255,0.3), transparent 65%)',
+          background: 'radial-gradient(circle, rgba(139,92,246,0.4), transparent 65%)',
         }}
         aria-hidden="true"
       />

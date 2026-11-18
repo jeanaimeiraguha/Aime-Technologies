@@ -23,24 +23,24 @@ export function AfricaRobotMap() {
         >
           <defs>
             <linearGradient id="robot-body" x1="0" y1="0" x2="0" y2="1">
-              <stop stopColor="#0a6ea8" />
-              <stop offset="1" stopColor="#054163" />
+              <stop stopColor="#8b7cf6" />
+              <stop offset="1" stopColor="#4c3f9e" />
             </linearGradient>
             <linearGradient id="scan-grad" x1="0" y1="0" x2="0" y2="1">
-              <stop stopColor="#7fd0ff" stopOpacity="0" />
-              <stop offset="0.5" stopColor="#7fd0ff" stopOpacity="0.9" />
-              <stop offset="1" stopColor="#7fd0ff" stopOpacity="0" />
+              <stop stopColor="#c4b5fd" stopOpacity="0" />
+              <stop offset="0.5" stopColor="#c4b5fd" stopOpacity="0.9" />
+              <stop offset="1" stopColor="#c4b5fd" stopOpacity="0" />
             </linearGradient>
           </defs>
 
           {/* Soft plate so the silhouette reads even where the robot does not reach */}
-          <rect width="1000" height="1001" fill="#054163" fillOpacity="0.16" />
+          <rect width="1000" height="1001" fill="#6d5bd0" fillOpacity="0.16" />
 
           {/* Circuit grid */}
           <g
             className="africa-map__circuits"
-            stroke="#054163"
-            strokeOpacity="0.4"
+            stroke="#8b7cf6"
+            strokeOpacity="0.35"
             strokeWidth="2"
           >
             <path d="M0 120 H1000 M0 250 H1000 M0 380 H1000 M0 510 H1000 M0 640 H1000 M0 770 H1000 M0 900 H1000" />
@@ -50,10 +50,10 @@ export function AfricaRobotMap() {
           {/* Traces */}
           <g
             className="africa-map__traces"
-            stroke="#0277a9"
+            stroke="#a78bfa"
             strokeWidth="3"
             fill="none"
-            strokeOpacity="0.75"
+            strokeOpacity="0.8"
           >
             <path d="M80 420 H280 L340 360 H520 L580 420 H900" />
             <path d="M120 680 H320 L380 620 H620 L680 680 H940" />
@@ -61,7 +61,7 @@ export function AfricaRobotMap() {
             <path d="M280 940 V760 L340 700 V480" />
             <path d="M760 200 V360 L820 420 V640" />
           </g>
-          <g className="africa-map__nodes" fill="#0277a9">
+          <g className="africa-map__nodes" fill="#a78bfa">
             <circle cx="280" cy="420" r="8" />
             <circle cx="520" cy="360" r="8" />
             <circle cx="900" cy="420" r="8" />
@@ -81,7 +81,7 @@ export function AfricaRobotMap() {
               fill="url(#robot-body)"
               opacity="0.94"
             />
-            <rect x="-16" y="48" width="32" height="28" rx="6" fill="#054163" />
+            <rect x="-16" y="48" width="32" height="28" rx="6" fill="#2a2352" />
             <rect x="-58" y="-70" width="116" height="122" rx="22" fill="url(#robot-body)" />
             <rect
               x="-44"
@@ -89,28 +89,28 @@ export function AfricaRobotMap() {
               width="88"
               height="70"
               rx="12"
-              fill="#041c2c"
+              fill="#17132c"
               opacity="0.88"
             />
             <g className="africa-map__eyes">
-              <rect x="-32" y="-30" width="24" height="14" rx="7" fill="#7fd0ff" />
-              <rect x="8" y="-30" width="24" height="14" rx="7" fill="#7fd0ff" />
+              <rect x="-32" y="-30" width="24" height="14" rx="7" fill="#c4b5fd" />
+              <rect x="8" y="-30" width="24" height="14" rx="7" fill="#c4b5fd" />
             </g>
-            <g stroke="#7fd0ff" strokeWidth="3" strokeLinecap="round" opacity="0.9">
+            <g stroke="#c4b5fd" strokeWidth="3" strokeLinecap="round" opacity="0.9">
               <line x1="-24" y1="6" x2="24" y2="6" />
               <line x1="-24" y1="16" x2="24" y2="16" />
               <line x1="-18" y1="26" x2="18" y2="26" />
             </g>
-            <line x1="0" y1="-70" x2="0" y2="-104" stroke="#054163" strokeWidth="4" />
-            <circle className="africa-map__antenna" cx="0" cy="-112" r="9" fill="#7fd0ff" />
-            <rect x="-74" y="-34" width="18" height="40" rx="8" fill="#054163" />
-            <rect x="56" y="-34" width="18" height="40" rx="8" fill="#054163" />
+            <line x1="0" y1="-70" x2="0" y2="-104" stroke="#2a2352" strokeWidth="4" />
+            <circle className="africa-map__antenna" cx="0" cy="-112" r="9" fill="#c4b5fd" />
+            <rect x="-74" y="-34" width="18" height="40" rx="8" fill="#2a2352" />
+            <rect x="56" y="-34" width="18" height="40" rx="8" fill="#2a2352" />
             <circle
               className="africa-map__core"
               cx="0"
               cy="118"
               r="16"
-              fill="#7fd0ff"
+              fill="#c4b5fd"
               opacity="0.95"
             />
             <circle cx="0" cy="118" r="8" fill="#ffffff" opacity="0.75" />

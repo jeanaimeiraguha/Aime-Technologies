@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { Accordion } from '@/components/ui/Accordion';
 import { Container } from '@/components/ui/Container';
 import { JsonLd } from '@/components/ui/JsonLd';
 import { PageHeader } from '@/components/ui/PageHeader';
@@ -15,6 +16,14 @@ export const metadata: Metadata = pageMetadata({
     'Questions about our services, the Academy, payments and support — answered plainly, including the ones we have not settled yet.',
   path: '/faq',
 });
+
+/** Stable anchor for each question, so a single answer can be linked to. */
+function faqId(question: string): string {
+  return question
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
 export default function FaqPage() {
   const groups = faqGroupsWithAnswers;
@@ -45,17 +54,16 @@ export default function FaqPage() {
           id={group.id}
           label={`${String(index + 1).padStart(2, '0')} — ${group.label}`}
           title={group.label}
+          className="scroll-mt-28"
         >
-          <dl className="divide-hairline border-hairline divide-y border-y">
-            {group.items.map((item) => (
-              <div key={item.question} className="grid gap-x-8 gap-y-2 py-7 md:grid-cols-12">
-                <dt className="max-w-[34ch] md:col-span-5">{item.question}</dt>
-                <dd className="md:col-span-6 md:col-start-7">
-                  <p className="text-muted max-w-[58ch]">{item.answer}</p>
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <Accordion
+            id={`faq-${group.id}`}
+            items={group.items.map((item) => ({
+              id: faqId(item.question),
+              title: item.question,
+              body: <p className="text-muted max-w-[58ch]">{item.answer}</p>,
+            }))}
+          />
         </Section>
       ))}
 

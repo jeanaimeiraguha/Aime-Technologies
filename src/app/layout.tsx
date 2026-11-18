@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Kumbh_Sans, JetBrains_Mono } from 'next/font/google';
+import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import '@/app/globals.css';
@@ -14,21 +14,30 @@ import { localBusinessJsonLd, organizationJsonLd, webSiteJsonLd } from '@/lib/js
 import { rootMetadata } from '@/lib/metadata';
 
 /**
- * One characterful sans and one monospace, self-hosted by next/font so there is
- * no third-party request and no layout shift from a late font swap.
+ * Three faces, self-hosted by next/font so there is no third-party request and
+ * no layout shift from a late font swap.
  *
- * `swap`, not `optional`: the typeface is the identity of a typography-led
+ * Space Grotesk is the display face — headings, hero lines, big numbers. It has
+ * the technical character the brand wants without reading as a code font.
+ * Inter carries body copy: it is the most legible sans at 16px on a mid-range
+ * phone screen, which is the audience. JetBrains Mono stays for metadata,
+ * labels and code, always `preload: false` — it is never above the fold.
+ *
+ * `swap`, not `optional`: the typefaces are the identity of a typography-led
  * site, and `optional` means a first-time visitor on a slow connection never
- * sees it at all. It was measured both ways — `optional` improved FCP but left
- * LCP essentially unchanged, so it would have cost the brand for nothing.
- * `adjustFontFallback` (on by default) matches the fallback metrics, which is
- * why the swap costs no layout shift: CLS measures 0.001.
+ * sees them at all. `adjustFontFallback` (on by default) matches the fallback
+ * metrics, which is why the swap costs no layout shift.
  */
-const sans = Kumbh_Sans({
+const display = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
-  variable: '--font-kumbh',
+  variable: '--font-space-grotesk',
+});
+
+const sans = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
 });
 
 const mono = JetBrains_Mono({
@@ -45,7 +54,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   // Both themes are declared so the browser chrome matches the resolved theme.
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: light)', color: '#f7f6fb' },
     { media: '(prefers-color-scheme: dark)', color: '#151327' },
   ],
 };
@@ -55,7 +64,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     // suppressHydrationWarning: ThemeScript sets data-theme on <html> before
     // React hydrates, which is a deliberate server/client difference.
     <html lang={localeTags.en} suppressHydrationWarning>
-      <body className={`${sans.variable} ${mono.variable} min-h-dvh antialiased`}>
+      <body
+        className={`${display.variable} ${sans.variable} ${mono.variable} min-h-dvh antialiased`}
+      >
         {/* First element in the body so the theme is applied before paint. */}
         <ThemeScript />
 

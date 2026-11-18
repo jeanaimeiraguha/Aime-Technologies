@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { X } from 'lucide-react';
 import { useSyncExternalStore } from 'react';
 
 import { announcement } from '@/content/site';
@@ -58,7 +59,7 @@ export function AnnouncementBar() {
           className="announce-bar__dismiss tap-icon absolute right-3 sm:right-5"
           aria-label="Dismiss announcement"
         >
-          ✕
+          <X size={14} strokeWidth={2} aria-hidden="true" />
         </button>
       </div>
     </div>

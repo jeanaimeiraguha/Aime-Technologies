@@ -1,11 +1,40 @@
 import type { ReactNode } from 'react';
 
+import { Check } from 'lucide-react';
+
 import { cn } from '@/lib/cn';
 
 /**
  * Plain lists, hairline-separated. These replace the icon-card grid everywhere
  * the site enumerates something.
  */
+
+/** Short items marked with a violet check. Used for teaching principles. */
+export function CheckList({
+  items,
+  className,
+}: {
+  items: readonly string[];
+  className?: string;
+}) {
+  if (items.length === 0) return null;
+
+  return (
+    <ul className={cn('space-y-3', className)}>
+      {items.map((item) => (
+        <li key={item} className="text-muted flex gap-3">
+          <Check
+            size={16}
+            aria-hidden="true"
+            className="text-accent mt-1.5 shrink-0"
+            strokeWidth={2.5}
+          />
+          <span className="max-w-[52ch]">{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 /** Short items marked with an en dash. Used for deliverables, prerequisites. */
 export function DashList({

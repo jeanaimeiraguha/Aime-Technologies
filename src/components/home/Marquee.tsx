@@ -25,14 +25,10 @@ export function Marquee({
   if (items.length === 0) return null;
 
   const group = (copy: number) => (
-    <ul
-      className="marquee__group"
-      aria-hidden={copy === 1 ? true : undefined}
-      key={copy}
-    >
+    <ul className="marquee__group" aria-hidden={copy === 1 ? true : undefined} key={copy}>
       {items.map((item) => (
         <li key={`${copy}-${item}`} className="flex items-center">
-          <span className="px-7 text-[1.0625rem] font-semibold whitespace-nowrap text-ink/85">
+          <span className="text-ink/85 px-7 text-[1.0625rem] font-semibold whitespace-nowrap">
             {item}
           </span>
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--label-color)] opacity-70" />

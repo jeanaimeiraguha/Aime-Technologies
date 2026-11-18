@@ -3,7 +3,14 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '@/lib/cn';
 
-type Variant = 'primary' | 'outline';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'outline';
+
+const VARIANT_CLASS: Record<Variant, string> = {
+  primary: 'btn-primary',
+  secondary: 'btn-secondary',
+  ghost: 'btn-ghost',
+  outline: 'btn-outline',
+};
 
 export function Button({
   variant = 'primary',
@@ -12,10 +19,7 @@ export function Button({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   return (
-    <button
-      className={cn(variant === 'primary' ? 'btn-primary' : 'btn-outline', className)}
-      {...props}
-    >
+    <button className={cn(VARIANT_CLASS[variant], className)} {...props}>
       {children}
     </button>
   );
@@ -35,7 +39,7 @@ export function ButtonLink({
   external?: boolean;
 }) {
   const isExternal = external ?? /^(https?:|mailto:|tel:)/.test(href);
-  const cls = cn(variant === 'primary' ? 'btn-primary' : 'btn-outline', className);
+  const cls = cn(VARIANT_CLASS[variant], className);
 
   if (isExternal) {
     return (

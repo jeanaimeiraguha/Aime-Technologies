@@ -36,7 +36,7 @@ export function ImageFrame({
           alt={alt}
           width={width}
           height={height}
-          priority={priority}
+          preload={priority}
           sizes={sizes}
           className="h-auto w-full"
         />

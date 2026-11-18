@@ -19,11 +19,11 @@ import { site } from '@/content/site';
 export const OG_SIZE = { width: 1200, height: 630 };
 export const OG_CONTENT_TYPE = 'image/png';
 
-const INK = '#0b0b0c';
-const PAPER = '#edebe6';
-const MUTED = '#8a8a8e';
-const ACCENT = '#e0561b';
-const HAIRLINE = '#26262a';
+const INK = '#151327';
+const PAPER = '#f4f2fb';
+const MUTED = '#a5a1c0';
+const ACCENT = '#a78bfa';
+const HAIRLINE = '#3a3560';
 
 export function renderOgImage({
   label,

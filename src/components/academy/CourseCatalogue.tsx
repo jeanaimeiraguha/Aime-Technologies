@@ -1,8 +1,9 @@
 'use client';
 
+import { SearchX } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
-import { CourseList } from '@/components/rows/CourseRow';
+import { CourseCard } from '@/components/academy/CourseCard';
 import type { CourseCategory, CourseLevel, CourseSummary } from '@/lib/content/courses';
 import { cn } from '@/lib/cn';
 
@@ -12,8 +13,11 @@ import { cn } from '@/lib/cn';
  * Filters are plain buttons in a toolbar, not a select, because there are few
  * enough options to show them all. `aria-pressed` carries the state, so the
  * active filter is not communicated by colour alone. With both filters set to
- * "All" this renders exactly the same list a visitor with no JavaScript would
+ * "All" this renders exactly the same grid a visitor with no JavaScript would
  * get from the server.
+ *
+ * The bar is sticky under the Academy sub-nav; the grid re-enters with a
+ * short stagger whenever the filter changes.
  */
 function FilterGroup<T extends string>({
   legend,
@@ -27,8 +31,8 @@ function FilterGroup<T extends string>({
   onChange: (value: T | null) => void;
 }) {
   return (
-    <fieldset className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
-      <legend className="text-meta text-faint float-left mr-4 font-mono tracking-[0.06em] uppercase">
+    <fieldset className="flex flex-wrap items-center gap-2">
+      <legend className="text-faint mr-2 font-mono text-[0.75rem] tracking-[0.08em] uppercase">
         {legend}
       </legend>
 
@@ -37,8 +41,10 @@ function FilterGroup<T extends string>({
         aria-pressed={active === null}
         onClick={() => onChange(null)}
         className={cn(
-          'tap text-meta hover:text-accent font-mono underline-offset-[5px]',
-          active === null ? 'text-ink decoration-accent underline' : 'text-muted',
+          'tap rounded-full border px-3.5 py-1.5 text-[0.8125rem] font-medium transition-colors',
+          active === null
+            ? 'border-accent bg-accent text-on-accent'
+            : 'border-hairline bg-surface text-muted hover:border-accent/50 hover:text-accent',
         )}
       >
         All
@@ -51,8 +57,10 @@ function FilterGroup<T extends string>({
           aria-pressed={active === option}
           onClick={() => onChange(active === option ? null : option)}
           className={cn(
-            'tap text-meta hover:text-accent font-mono underline-offset-[5px]',
-            active === option ? 'text-ink decoration-accent underline' : 'text-muted',
+            'tap rounded-full border px-3.5 py-1.5 text-[0.8125rem] font-medium transition-colors',
+            active === option
+              ? 'border-accent bg-accent text-on-accent'
+              : 'border-hairline bg-surface text-muted hover:border-accent/50 hover:text-accent',
           )}
         >
           {option}
@@ -84,16 +92,21 @@ export function CourseCatalogue({
     [courses, category, level],
   );
 
+  // Remounts the grid on every filter change so `.filter-in` replays.
+  const gridKey = `${category ?? '*'}-${level ?? '*'}`;
+
   return (
     <div>
-      <div className="border-hairline flex flex-col gap-4 border-b pb-5">
-        <FilterGroup
-          legend="Category"
-          options={categories}
-          active={category}
-          onChange={setCategory}
-        />
-        <FilterGroup legend="Level" options={levels} active={level} onChange={setLevel} />
+      <div className="border-hairline bg-paper/95 sticky top-[110px] z-20 border-b py-3 backdrop-blur md:top-[127px]">
+        <div className="flex flex-col gap-2.5">
+          <FilterGroup
+            legend="Category"
+            options={categories}
+            active={category}
+            onChange={setCategory}
+          />
+          <FilterGroup legend="Level" options={levels} active={level} onChange={setLevel} />
+        </div>
       </div>
 
       <p className="text-meta text-faint mt-5 font-mono" role="status" aria-live="polite">
@@ -102,18 +115,36 @@ export function CourseCatalogue({
       </p>
 
       {filtered.length > 0 ? (
-        <CourseList courses={filtered} className="mt-5" />
+        <div
+          key={gridKey}
+          className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          role="list"
+        >
+          {filtered.map((course) => (
+            <div key={course.slug} role="listitem" className="filter-in h-full">
+              <CourseCard course={course} />
+            </div>
+          ))}
+        </div>
       ) : (
-        <p className="border-hairline text-muted mt-5 border-t pt-6">
-          No courses match that combination yet. Clear a filter, or{' '}
-          <a
-            href="/contact?type=training"
-            className="text-ink decoration-hairline-strong hover:text-accent hover:decoration-accent underline underline-offset-[5px]"
-          >
-            tell us what you are looking for
-          </a>
-          .
-        </p>
+        <div className="border-hairline bg-surface mt-5 rounded-lg border border-dashed p-10 text-center">
+          <SearchX
+            size={28}
+            aria-hidden="true"
+            className="text-faint mx-auto"
+            strokeWidth={1.5}
+          />
+          <p className="text-muted mt-4 max-w-[46ch]">
+            No courses match that combination yet. Clear a filter, or{' '}
+            <a
+              href="/contact?type=training"
+              className="text-ink decoration-hairline-strong hover:text-accent hover:decoration-accent underline underline-offset-[5px]"
+            >
+              tell us what you are looking for
+            </a>
+            .
+          </p>
+        </div>
       )}
     </div>
   );

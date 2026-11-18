@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Menu, X } from 'lucide-react';
 import {
   useCallback,
   useEffect,
@@ -109,21 +110,21 @@ export function SiteHeader() {
 
       <AnnouncementBar />
 
-      <Container className="flex items-center justify-between" style={{ height: '82px' }}>
+      <Container className="flex h-[74px] items-center justify-between">
         <Link
           href="/"
           className="group flex shrink-0 items-center gap-2.5"
           aria-label={`${site.name} — home`}
         >
-          <span className="relative block h-10 w-10 overflow-hidden rounded-lg">
+          <span className="relative block h-9 w-9 overflow-hidden rounded-md">
             <Image
               src="/Totally Ink.png"
               alt=""
               width={1345}
               height={1169}
-              priority
-              sizes="40px"
-              className="h-10 w-auto transition-transform duration-500 group-hover:scale-105"
+              fetchPriority="high"
+              sizes="36px"
+              className="h-9 w-auto transition-transform duration-500 group-hover:scale-105"
             />
           </span>
           <span className="site-header__logo-word text-[1.0625rem] leading-none font-bold">
@@ -150,11 +151,7 @@ export function SiteHeader() {
           <ThemeToggle />
           {/* Wrapped so `hidden` is not overridden by `.btn-primary { display }` (unlayered CSS beats utilities). */}
           <span className="hidden md:block">
-            <Link
-              href="/contact?type=quote"
-              className="btn-primary"
-              style={{ fontSize: '14px', padding: '11px 22px', lineHeight: '1.4' }}
-            >
+            <Link href="/contact?type=quote" className="btn-primary btn-sm">
               Contact Us
             </Link>
           </span>
@@ -167,7 +164,11 @@ export function SiteHeader() {
             className="site-header__menu-btn tap-icon flex h-11 w-11 items-center justify-center rounded-lg transition-colors md:hidden"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           >
-            {menuOpen ? '✕' : '☰'}
+            {menuOpen ? (
+              <X size={20} strokeWidth={1.75} aria-hidden="true" />
+            ) : (
+              <Menu size={20} strokeWidth={1.75} aria-hidden="true" />
+            )}
           </button>
         </div>
       </Container>
@@ -192,8 +193,7 @@ export function SiteHeader() {
               <Link
                 href="/contact?type=quote"
                 onClick={closeMenu}
-                className="btn-primary mt-5 justify-center"
-                style={{ fontSize: '14px' }}
+                className="btn-primary btn-sm mt-5 justify-center"
               >
                 Contact Us →
               </Link>

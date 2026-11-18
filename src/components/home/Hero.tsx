@@ -27,14 +27,14 @@ export function Hero() {
       <div
         className="hero-orb -top-32 -left-24 h-[420px] w-[420px]"
         style={{
-          background: 'radial-gradient(circle, rgba(90,169,221,0.35), transparent 65%)',
+          background: 'radial-gradient(circle, rgba(139,92,246,0.35), transparent 65%)',
         }}
         aria-hidden="true"
       />
       <div
         className="hero-orb top-1/3 -right-24 h-[380px] w-[380px]"
         style={{
-          background: 'radial-gradient(circle, rgba(5,65,99,0.22), transparent 68%)',
+          background: 'radial-gradient(circle, rgba(245,158,11,0.16), transparent 68%)',
           animationDelay: '-7s',
         }}
         aria-hidden="true"

@@ -21,7 +21,7 @@ export function StatsRow() {
   return (
     <section className="stats-band border-hairline border-b py-16 md:py-20" aria-label="Impact">
       <Container>
-        <ul className="grid grid-cols-2 gap-5 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-x-6 lg:grid-cols-4">
           {STATS.map((stat, index) => (
             <Reveal as="li" key={stat.label} delay={index * 100}>
               <div className="stat-card h-full">
