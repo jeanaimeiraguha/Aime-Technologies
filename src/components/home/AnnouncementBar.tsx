@@ -2,49 +2,32 @@
 
 import Link from 'next/link';
 import { X } from 'lucide-react';
-import { useSyncExternalStore } from 'react';
+import { useCallback } from 'react';
 
 import { announcement } from '@/content/site';
-
-const STORAGE_KEY = 'ti-announce-dismissed';
-const CHANGE_EVENT = 'ti-announce-change';
-
-function subscribe(onStoreChange: () => void) {
-  window.addEventListener(CHANGE_EVENT, onStoreChange);
-  return () => window.removeEventListener(CHANGE_EVENT, onStoreChange);
-}
-
-function getSnapshot() {
-  try {
-    return localStorage.getItem(STORAGE_KEY) !== '1';
-  } catch {
-    return true;
-  }
-}
-
-function getServerSnapshot() {
-  return false;
-}
+import { ANNOUNCE_STORAGE_KEY } from '@/lib/themeScript';
 
 /**
- * Slim promo strip above the header — the web3mates cohort banner shape.
- * Dismissal persists in localStorage; visibility is read via
- * useSyncExternalStore so there is no setState-in-effect and no
- * SSR/client mismatch (server always renders nothing).
+ * Slim promo strip above the header.
+ *
+ * It renders on the server and is in the first painted frame, so it never
+ * pushes the page down once hydration runs. Dismissal sets `data-announce` on
+ * `<html>`, which globals.css hides the strip on; the inline theme script
+ * re-applies that attribute before paint on the next visit. Keeping the
+ * decision out of React state is what removes the layout shift — the previous
+ * version rendered nothing on the server and appeared after hydration.
  */
 export function AnnouncementBar() {
-  const visible = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-
-  if (!announcement || !visible) return null;
-
-  function dismiss() {
+  const dismiss = useCallback(() => {
+    document.documentElement.setAttribute('data-announce', 'off');
     try {
-      localStorage.setItem(STORAGE_KEY, '1');
+      localStorage.setItem(ANNOUNCE_STORAGE_KEY, '1');
     } catch {
       // Private window — the bar simply returns next visit.
     }
-    window.dispatchEvent(new Event(CHANGE_EVENT));
-  }
+  }, []);
+
+  if (!announcement) return null;
 
   return (
     <div className="announce-bar" role="region" aria-label="Announcement">

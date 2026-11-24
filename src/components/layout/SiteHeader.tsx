@@ -13,7 +13,6 @@ import {
   type CSSProperties,
 } from 'react';
 
-import { AnnouncementBar } from '@/components/home/AnnouncementBar';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { Container } from '@/components/ui/Container';
 import { site } from '@/content/site';
@@ -96,9 +95,14 @@ export function SiteHeader() {
   const solid = scrolled || menuOpen;
 
   return (
+    // Sticky, not fixed. A fixed header is out of the flow, so every page
+    // underneath has to guess a top padding that clears it — and /about,
+    // /work, /contact and the rest guessed 48px against a 74px header, which
+    // put the first line of each page behind it. Sticky reserves its own
+    // space, so no page has to know the header is there.
     <header
       className={cn(
-        'site-header fixed top-0 z-50 w-full transition-all duration-300',
+        'site-header sticky top-0 z-50 w-full transition-all duration-300',
         solid && 'is-solid',
       )}
     >
@@ -108,9 +112,7 @@ export function SiteHeader() {
         aria-hidden="true"
       />
 
-      <AnnouncementBar />
-
-      <Container className="flex h-[74px] items-center justify-between">
+      <Container className="flex h-[var(--header-h)] items-center justify-between">
         <Link
           href="/"
           className="group flex shrink-0 items-center gap-2.5"

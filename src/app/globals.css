@@ -11,6 +11,14 @@
 :root {
   color-scheme: dark;
 
+  /*
+    Height of the sticky header row. Anything that has to sit below the header
+    — the Academy sub-nav, the scroll offset for in-page anchors — reads this
+    instead of hard-coding a pixel value, which is how those offsets drifted
+    apart in the first place.
+  */
+  --header-h: 74px;
+
   /* — legacy aliases kept for components that still read them — */
   --primary-color: #a78bfa;
   --gradient-bg: #a78bfa;
@@ -428,6 +436,11 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+/* Set before first paint by the inline script, for a visitor who closed it. */
+:root[data-announce='off'] .announce-bar {
+  display: none;
+}
+
 .announce-bar__link {
   color: #ffffff;
   font-weight: 700;
@@ -464,26 +477,12 @@
   border-color: rgba(255, 255, 255, 0.55);
 }
 
-@keyframes announce-in {
-  from {
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.announce-bar {
-  animation: announce-in 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .announce-bar {
-    animation: none;
-  }
-}
+/*
+  The slide-in is gone with the strip now being server-rendered: it existed to
+  cover the strip appearing after hydration. Animating an element that is
+  already in the first painted frame just makes the top of the page move on
+  every load, which is the thing this change set out to stop.
+*/
 
 /* Section eyebrow — short rule, then small, tracked, violet. */
 .section-label-text {
@@ -657,7 +656,15 @@
    circuit/robot layer; the map outline sits on top.
    --------------------------------------------------------------------------- */
 
+/*
+  The header is sticky, so it occupies its own 74px at the top of the flow.
+  The hero is the one section that is meant to run underneath it, so it alone
+  pulls itself back up by the header height — its own generous padding-top
+  already keeps the copy clear of the bar. Every other page simply starts
+  below the header and needs to know nothing about it.
+*/
 .hero-plate {
+  margin-top: calc(-1 * var(--header-h));
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -1172,11 +1179,22 @@
   background: var(--accent-wash);
 }
 
+/*
+  Absolute, not in the flow. The header is sticky now, so a panel that added
+  to the header's own height would push the whole page down as the menu opened
+  and snap it back as it closed. Hung off the header's bottom edge it overlays
+  the page instead, which is what it did while the header was fixed.
+*/
 .site-header__mobile {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
   background: var(--header-solid);
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
   animation: menu-drop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1475,6 +1493,12 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    /*
+      Without this, every in-page jump (#services, #catalogue, #enrol) parks
+      the target heading underneath the sticky header. The extra 1rem keeps
+      the heading off the header's edge rather than flush against it.
+    */
+    scroll-padding-top: calc(var(--header-h) + 1rem);
   }
 
   @media (prefers-reduced-motion: reduce) {

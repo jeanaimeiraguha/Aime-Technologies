@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 
 import '@/app/globals.css';
 
+import { AnnouncementBar } from '@/components/home/AnnouncementBar';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SkipLink } from '@/components/layout/SkipLink';
@@ -71,6 +72,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeScript />
 
         <SkipLink />
+
+        {/* Above the sticky header, in the flow, so it scrolls away rather
+            than holding a strip of the viewport for the whole visit. */}
+        <AnnouncementBar />
         <SiteHeader />
 
         {/*

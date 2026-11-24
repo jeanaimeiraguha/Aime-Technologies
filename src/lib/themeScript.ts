@@ -15,6 +15,16 @@
  */
 
 export const THEME_STORAGE_KEY = 'ti-theme';
+export const ANNOUNCE_STORAGE_KEY = 'ti-announce-dismissed';
 
+/**
+ * The script also applies the announcement strip's dismissed state.
+ *
+ * The strip sits in the flow above the header, so whether it is there changes
+ * where the page starts. Deciding that in React meant the server rendered
+ * nothing and hydration then pushed the whole page down by the height of the
+ * strip. Rendering it on the server and removing it here — before paint —
+ * costs no layout shift either way.
+ */
 // prettier-ignore
-export const THEME_SCRIPT = 'try{var t=localStorage.getItem("ti-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}';
+export const THEME_SCRIPT = 'try{var d=document.documentElement,t=localStorage.getItem("ti-theme");if(t==="light"||t==="dark")d.setAttribute("data-theme",t);if(localStorage.getItem("ti-announce-dismissed")==="1")d.setAttribute("data-announce","off")}catch(e){}';
